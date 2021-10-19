@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS clientes;
+DROP TABLE IF EXISTS "clientes";
 CREATE TABLE "clientes" (
 	"id_cliente"	INTEGER NOT NULL,
 	"nombre"	TEXT NOT NULL,
@@ -128,4 +128,3 @@ INSERT INTO "promocion-atraccion" VALUES
 	(6, 1),
 	(6, 2),
 	(6, 3);
-	
