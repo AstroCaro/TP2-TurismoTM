@@ -7,7 +7,7 @@ public class Ofertable {
 
 	static ArrayList<Oferta> ofertasCopia = new ArrayList<Oferta>();
 
-	public static void ordenarOfertas(TipoAtraccion preferencia) {
+	public static void ordenarOfertas(TipoAtraccionENUM preferencia) {
 //		System.out.println("************************");
 		Collections.sort(ofertasCopia, new ComparadorDeOfertas(preferencia));
 //		for (Oferta oferta : ofertasCopia) {			

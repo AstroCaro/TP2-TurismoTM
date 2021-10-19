@@ -6,7 +6,7 @@ public class PromocionPorcentual extends Promocion {
 
 	private double descuento; // decimal
 
-	public PromocionPorcentual(String nombre, TipoAtraccion tipoAtraccion, double descuento,
+	public PromocionPorcentual(String nombre, TipoAtraccionENUM tipoAtraccion, double descuento,
 			ArrayList<String> atracciones) {
 		super(nombre, tipoAtraccion, atracciones);
 		this.descuento = descuento;

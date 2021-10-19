@@ -2,11 +2,13 @@ package paqueteTurismoTM;
 
 public class Atraccion extends Oferta {
 
+	int id_atraccion;
 	private int costo;
 	private int cuposDisponibles;
 
-	public Atraccion(String nombre, int costo, double tiempo, int cuposDisponibles, TipoAtraccion tipoAtraccion) {
+	public Atraccion(int id_atraccion, String nombre, int costo, double tiempo, int cuposDisponibles, TipoAtraccionENUM tipoAtraccion) {
 		super(nombre, tipoAtraccion);
+		this.id_atraccion=id_atraccion;
 		this.costo = costo;
 		this.tiempo = tiempo;
 		this.cuposDisponibles = cuposDisponibles;
