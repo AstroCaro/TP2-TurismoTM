@@ -3,13 +3,15 @@ package paqueteTurismoTM;
 import java.util.ArrayList;
 
 public abstract class Promocion extends Oferta {
+	protected int id_promocion;
 	public ArrayList<String> atracciones;
 	protected int costo;
 	protected double tiempoTotal;
 	protected int cuposDisponibles;
 
-	public Promocion(String nombre, TipoAtraccion tipoAtraccion, ArrayList<String> atracciones) {
+	public Promocion(int id_promocion, String nombre, TipoAtraccionENUM tipoAtraccion, ArrayList<String> atracciones) {
 		super(nombre, tipoAtraccion);
+		this.id_promocion=id_promocion;
 		this.atracciones = new ArrayList<String>(atracciones);
 	}
 

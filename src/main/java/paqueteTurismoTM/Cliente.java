@@ -5,13 +5,15 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class Cliente {
+	protected int id_cliente;
 	protected String nombre;
-	protected TipoAtraccion preferencia;
+	protected TipoAtraccionENUM preferencia;
 	protected int presupuesto;
 	protected double tiempo;
 	protected Itinerario itinerario;
 
-	public Cliente(String nombre, TipoAtraccion preferencia, int presupuesto, double tiempo) {
+	public Cliente(int id_cliente, String nombre, TipoAtraccionENUM preferencia, int presupuesto, double tiempo) {
+		this.id_cliente=id_cliente;
 		this.nombre = nombre;
 		this.preferencia = preferencia;
 		this.presupuesto = presupuesto;

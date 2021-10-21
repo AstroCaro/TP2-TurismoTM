@@ -47,7 +47,7 @@ public class LectorDeFicheros {
 		for (int i = 0; i < arrayDeClientes.size(); i++) {
 			ArrayList<String> campos = new ArrayList<>(Arrays.asList(arrayDeClientes.get(i).split(";")));
 			// System.out.println(campos);
-			clientes.add(new Cliente(campos.get(0), TipoAtraccion.valueOf(campos.get(1)),
+			clientes.add(new Cliente(campos.get(0), TipoAtraccionENUM.valueOf(campos.get(1)),
 					Integer.parseInt(campos.get(2)), Double.parseDouble(campos.get(3))));
 		}
 		return clientes;
@@ -60,7 +60,7 @@ public class LectorDeFicheros {
 			ArrayList<String> campos = new ArrayList<>(Arrays.asList(arrayDeAtracciones.get(i).split(";")));
 			atracciones.add(
 					new Atraccion(campos.get(0), Integer.parseInt(campos.get(1)), Double.parseDouble(campos.get(2)),
-							Integer.parseInt(campos.get(3)), TipoAtraccion.valueOf(campos.get(4))));
+							Integer.parseInt(campos.get(3)), TipoAtraccionENUM.valueOf(campos.get(4))));
 		}
 		return atracciones;
 	}
@@ -72,7 +72,7 @@ public class LectorDeFicheros {
 			ArrayList<String> campos = new ArrayList<>(Arrays.asList(arrayDePromAbs.get(i).split(";")));
 			@SuppressWarnings("unused")
 			ArrayList<String> arrayDeAtracciones;
-			promociones.add(new PromocionAbsoluta(campos.get(0), TipoAtraccion.valueOf(campos.get(1)),
+			promociones.add(new PromocionAbsoluta(campos.get(0), TipoAtraccionENUM.valueOf(campos.get(1)),
 					Integer.parseInt(campos.get(2)),
 					arrayDeAtracciones = new ArrayList<>(Arrays.asList(campos.get(3).split(",")))));
 		}
@@ -84,7 +84,7 @@ public class LectorDeFicheros {
 		ArrayList<Oferta> promociones = new ArrayList<Oferta>();
 		for (int i = 0; i < arrayDePromAxB.size(); i++) {
 			ArrayList<String> campos = new ArrayList<>(Arrays.asList(arrayDePromAxB.get(i).split(";")));
-			promociones.add(new PromocionAxB(campos.get(0), TipoAtraccion.valueOf(campos.get(1)),
+			promociones.add(new PromocionAxB(campos.get(0), TipoAtraccionENUM.valueOf(campos.get(1)),
 					new ArrayList<>(Arrays.asList(campos.get(2).split(",")))));
 		}
 		return promociones;
@@ -95,7 +95,7 @@ public class LectorDeFicheros {
 		ArrayList<Oferta> promociones = new ArrayList<Oferta>();
 		for (int i = 0; i < arrayDePromPorc.size(); i++) {
 			ArrayList<String> campos = new ArrayList<>(Arrays.asList(arrayDePromPorc.get(i).split(";")));
-			promociones.add(new PromocionPorcentual(campos.get(0), TipoAtraccion.valueOf(campos.get(1)),
+			promociones.add(new PromocionPorcentual(campos.get(0), TipoAtraccionENUM.valueOf(campos.get(1)),
 					Double.parseDouble(campos.get(2)), new ArrayList<>(Arrays.asList(campos.get(3).split(",")))));
 
 		}

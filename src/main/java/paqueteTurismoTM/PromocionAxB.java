@@ -6,7 +6,7 @@ public class PromocionAxB extends Promocion {
 
 	public String atraccionGratis;
 	
-	public PromocionAxB(String nombre, TipoAtraccion tipoAtraccion, ArrayList<String> atracciones) {
+	public PromocionAxB(String nombre, TipoAtraccionENUM tipoAtraccion, ArrayList<String> atracciones) {
 		super(nombre, tipoAtraccion, atracciones);
 		this.atraccionGratis = atracciones.get(atracciones.size()-1);
 	}
