@@ -7,17 +7,16 @@ import java.io.InputStreamReader;
 public class Cliente {
 	protected int id_cliente;
 	protected String nombre;
-	protected TipoAtraccionENUM preferencia;
+	protected String preferencia;
 	protected int presupuesto;
-	protected double tiempo;
+	protected double tiempo_disponible;
 	protected Itinerario itinerario;
 
-	public Cliente(int id_cliente, String nombre, TipoAtraccionENUM preferencia, int presupuesto, double tiempo) {
-		this.id_cliente=id_cliente;
+	public Cliente(String nombre, String preferencia, int presupuesto, double tiempo) {
 		this.nombre = nombre;
 		this.preferencia = preferencia;
 		this.presupuesto = presupuesto;
-		this.tiempo = tiempo;
+		this.tiempo_disponible = tiempo;
 		itinerario = new Itinerario();
 	}
 
@@ -29,13 +28,13 @@ public class Cliente {
 
 	private void descontarOroYTiempo(Oferta unaOferta) {
 		this.presupuesto -= unaOferta.getCosto();
-		this.tiempo -= unaOferta.getTiempo();
+		this.tiempo_disponible -= unaOferta.getTiempo();
 	}
 
 	@Override
 	public String toString() {
 		return "Cliente [nombre=" + nombre + ", preferencia=" + preferencia + ", presupuesto=" + presupuesto
-				+ ", tiempo=" + tiempo + "]";
+				+ ", tiempo=" + tiempo_disponible + "]";
 	}
 
 	public boolean responderPregunta() throws IOException {
@@ -73,5 +72,20 @@ public class Cliente {
 			intentos--;
 		}
 		return r;
+	}
+
+	public int getPresupuesto() {
+		// TODO Auto-generated method stub
+		return presupuesto;
+	}
+
+	public String getNombre() {
+		// TODO Auto-generated method stub
+		return nombre;
+	}
+
+	public double getTiempo_disponible() {
+		// TODO Auto-generated method stub
+		return tiempo_disponible;
 	}
 }
