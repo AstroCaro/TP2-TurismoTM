@@ -28,6 +28,8 @@ public abstract class Promocion extends Oferta {
 		}
 		return tiempoTotal;
 	}
+	
+	
 
 	public ArrayList<String> getAtracciones() {
 		return this.atracciones;

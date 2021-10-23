@@ -12,9 +12,9 @@ public class ComparadorDeOfertas implements Comparator<Oferta> {
 
 	public int compare(Oferta oferta, Oferta otraOferta) {
 		// de las dos ofertas que se comparan solo una es de la preferencia
-		if (this.preferencia == oferta.getTipoAtraccion() && this.preferencia != otraOferta.getTipoAtraccion())
+		if (this.preferencia.equals(oferta.getTipoAtraccion()) && !this.preferencia.equals(otraOferta.getTipoAtraccion()))
 			return -1;
-		else if (this.preferencia != oferta.getTipoAtraccion() && this.preferencia == otraOferta.getTipoAtraccion())
+		else if (!this.preferencia.equals(oferta.getTipoAtraccion()) && this.preferencia.equals(otraOferta.getTipoAtraccion()))
 			return 1;
 		// ambas son de preferencia del cliente o ninguna es de la preferencia del
 		// cliente

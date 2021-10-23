@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 import java.util.List;
 
-import app.App;
 import jdbc.ConnectionProvider;
 import paqueteTurismoTM.Atraccion;
 
@@ -39,7 +38,7 @@ public class ItinerarioDAOImpl implements ItinerarioDAO {
 
 			}
 			for (String compra : compras) {
-				for (Oferta unaOferta : App.ofertas) {
+				for (Oferta unaOferta : TurismoTM.ofertas) {
 					if (compra.equals(unaOferta.getNombre())) {
 						comprasCliente.add(unaOferta);
 					}

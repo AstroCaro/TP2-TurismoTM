@@ -8,12 +8,8 @@ public class Ofertable {
 	static ArrayList<Oferta> ofertasCopia = new ArrayList<Oferta>();
 
 	public static void ordenarOfertas(String preferencia) {
-//		System.out.println("************************");
+
 		Collections.sort(ofertasCopia, new ComparadorDeOfertas(preferencia));
-//		for (Oferta oferta : ofertasCopia) {			
-//			System.out.println(oferta);
-//		}
-//		System.out.println("************************");
 	}
 
 	public static boolean comprobarSiHayOferta(Cliente unCliente) {
@@ -26,7 +22,6 @@ public class Ofertable {
 		quitarOfertasDeItinerario(unCliente);
 		return (TurismoTM.ofertas != null);
 	}
-
 
 	private static void quitarOfertasDeItinerario(Cliente unCliente) {
 		@SuppressWarnings("unchecked")

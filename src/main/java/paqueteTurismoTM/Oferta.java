@@ -5,9 +5,9 @@ public abstract class Oferta {
 	protected double tiempo;
 	protected String tipoAtraccion;
 
-	public Oferta(String nombre, String tipoAtraccion2) {
+	public Oferta(String nombre, String tipoAtraccion) {
 		this.nombre = nombre;
-		this.tipoAtraccion = tipoAtraccion2;
+		this.tipoAtraccion = tipoAtraccion;
 	}
 
 	public String getNombre() {
@@ -15,7 +15,7 @@ public abstract class Oferta {
 	}
 
 	public String getTipoAtraccion() {
-		return tipoAtraccion;
+		return this.tipoAtraccion;
 	}
 
 	protected abstract int getCuposDisponibles();
