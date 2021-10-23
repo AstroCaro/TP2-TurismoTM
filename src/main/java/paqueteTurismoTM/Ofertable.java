@@ -7,7 +7,7 @@ public class Ofertable {
 
 	static ArrayList<Oferta> ofertasCopia = new ArrayList<Oferta>();
 
-	public static void ordenarOfertas(TipoAtraccionENUM preferencia) {
+	public static void ordenarOfertas(String preferencia) {
 //		System.out.println("************************");
 		Collections.sort(ofertasCopia, new ComparadorDeOfertas(preferencia));
 //		for (Oferta oferta : ofertasCopia) {			
@@ -88,7 +88,7 @@ public class Ofertable {
 		@SuppressWarnings("unchecked")
 		ArrayList<Oferta> copia = (ArrayList<Oferta>) ofertasCopia.clone();
 		for (Oferta ofertaImposible : copia) {
-			if (unCliente.presupuesto < ofertaImposible.getCosto() || unCliente.tiempo < ofertaImposible.getTiempo()) {
+			if (unCliente.presupuesto < ofertaImposible.getCosto() || unCliente.tiempo_disponible < ofertaImposible.getTiempo()) {
 				ofertasCopia.remove(ofertaImposible);
 			}
 		}

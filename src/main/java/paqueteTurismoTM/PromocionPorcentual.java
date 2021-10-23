@@ -6,7 +6,7 @@ public class PromocionPorcentual extends Promocion {
 
 	private double descuento; // decimal
 
-	public PromocionPorcentual(String nombre, TipoAtraccionENUM tipoAtraccion, double descuento,
+	public PromocionPorcentual(String nombre, String tipoAtraccion, double descuento,
 			ArrayList<String> atracciones) {
 		super(nombre, tipoAtraccion, atracciones);
 		this.descuento = descuento;
@@ -16,7 +16,7 @@ public class PromocionPorcentual extends Promocion {
 	public int getCosto() {
 	costo = 0;
 		for (String a : atracciones) {
-			for (Oferta b : new LectorDeFicheros().cargarAtracciones()) {
+			for (Oferta b : TurismoTM.atracciones) {
 				if (a.equals(b.nombre)) {
 					costo += b.getCosto();
 				}

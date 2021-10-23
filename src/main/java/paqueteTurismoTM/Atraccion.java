@@ -6,7 +6,7 @@ public class Atraccion extends Oferta {
 	private int costo;
 	private int cuposDisponibles;
 
-	public Atraccion(int id_atraccion, String nombre, int costo, double tiempo, int cuposDisponibles, TipoAtraccionENUM tipoAtraccion) {
+	public Atraccion(int id_atraccion, String nombre, int costo, double tiempo, int cuposDisponibles, String tipoAtraccion) {
 		super(nombre, tipoAtraccion);
 		this.id_atraccion=id_atraccion;
 		this.costo = costo;

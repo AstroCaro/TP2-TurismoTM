@@ -4,9 +4,9 @@ import java.util.Comparator;
 
 public class ComparadorDeOfertas implements Comparator<Oferta> {
 
-	private TipoAtraccionENUM preferencia;
+	private String preferencia;
 
-	public ComparadorDeOfertas(TipoAtraccionENUM preferencia) {
+	public ComparadorDeOfertas(String preferencia) {
 		this.preferencia = preferencia;
 	}
 

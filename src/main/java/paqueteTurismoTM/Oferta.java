@@ -3,18 +3,18 @@ package paqueteTurismoTM;
 public abstract class Oferta {
 	protected String nombre = "";
 	protected double tiempo;
-	protected TipoAtraccionENUM tipoAtraccion;
+	protected String tipoAtraccion;
 
-	public Oferta(String nombre, TipoAtraccionENUM tipoAtraccion) {
+	public Oferta(String nombre, String tipoAtraccion2) {
 		this.nombre = nombre;
-		this.tipoAtraccion = tipoAtraccion;
+		this.tipoAtraccion = tipoAtraccion2;
 	}
 
 	public String getNombre() {
 		return nombre;
 	}
 
-	public TipoAtraccionENUM getTipoAtraccion() {
+	public String getTipoAtraccion() {
 		return tipoAtraccion;
 	}
 

@@ -6,7 +6,7 @@ public class PromocionAxB extends Promocion {
 
 	public String atraccionGratis;
 	
-	public PromocionAxB(String nombre, TipoAtraccionENUM tipoAtraccion, ArrayList<String> atracciones) {
+	public PromocionAxB(String nombre, String tipoAtraccion, ArrayList<String> atracciones) {
 		super(nombre, tipoAtraccion, atracciones);
 		this.atraccionGratis = atracciones.get(atracciones.size()-1);
 	}
@@ -16,7 +16,7 @@ public class PromocionAxB extends Promocion {
 	public int getCosto() {
 		costo = 0;
 		for (int i = 0; i < atracciones.size()-1; i++) {			
-			for (Oferta b : new LectorDeFicheros().cargarAtracciones()) {
+			for (Oferta b : TurismoTM.atracciones) {
 				if (atracciones.get(i).equals(b.nombre)) {
 					costo += b.getCosto();
 				}
@@ -30,7 +30,7 @@ public class PromocionAxB extends Promocion {
 	public int getCuposDisponibles() {
 		int cupoDisponible = 9999;
 		for (String a : atracciones) {
-			for (Oferta b : TurismoTM.ofertas) {
+			for (Oferta b : TurismoTM.atracciones) {
 				if (a.equals(b.nombre)) {
 					if (b.getCuposDisponibles() < cupoDisponible) {
 						cupoDisponible = b.getCuposDisponibles();

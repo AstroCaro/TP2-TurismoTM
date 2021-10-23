@@ -12,6 +12,7 @@ import model.User;
 import paqueteTurismoTM.Cliente;
 import paqueteTurismoTM.Itinerario;
 import paqueteTurismoTM.Oferta;
+import paqueteTurismoTM.TurismoTM;
 
 public class ItinerarioDAOImpl implements ItinerarioDAO {
 
@@ -36,7 +37,7 @@ public class ItinerarioDAOImpl implements ItinerarioDAO {
 			
 			
 			for (String compra : compras) {
-				for (Oferta unaOferta : turismoTM.ofertas) {	
+				for (Oferta unaOferta : TurismoTM.ofertas) {	
 					if (compra.equals(unaOferta.getNombre())) {
 						ofertasCompradas.add(unaOferta);
 					}
