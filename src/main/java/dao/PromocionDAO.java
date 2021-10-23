@@ -13,5 +13,5 @@ public interface PromocionDAO extends GenericDAO<Promocion> {
 
 	public abstract ArrayList<Promocion> findAllPromosAxB();
 	
-	public abstract int findIdPorNombre(Promocion unaPromocion);
+	public abstract int findIdPorNombre(String nombrePromocion);
 }

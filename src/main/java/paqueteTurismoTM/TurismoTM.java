@@ -19,9 +19,9 @@ public class TurismoTM {
 
 		ClienteDAO clienteDAO = DAOFactory.getClienteDAO();
 		clientes.addAll(clienteDAO.findAll());
-	AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
+		AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
 		atracciones.addAll(atraccionDAO.findAll());
-	ofertas.addAll(atraccionDAO.findAll());
+		ofertas.addAll(atraccionDAO.findAll());
 		PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
 		ofertas.addAll(promocionDAO.findAll());
 
@@ -45,7 +45,7 @@ public class TurismoTM {
 						mensajeQuieresComprarEsto(unaOferta);
 						if (unCliente.responderPregunta()) {
 							unCliente.comprarOferta(unaOferta);
-							System.out.print("¡Compra exitosa!");
+							System.out.print("Compra exitosa!");
 							Ofertable.quitarOfertasCompradas();
 							unaOferta.venderCupo();
 							mensajeQuieresVerOtraOferta();

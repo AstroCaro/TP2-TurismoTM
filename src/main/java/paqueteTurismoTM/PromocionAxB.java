@@ -46,6 +46,6 @@ public class PromocionAxB extends Promocion {
 		return "" + this.nombre + " contiene las siguientes atracciones de tipo" + "[" + tipoAtraccion + "]:" + "\n\t"
 				+ this.atracciones + "\n\tSu precio total es de " + this.getCosto() + " monedas de oro."
 				+ "\n\t Siendo la atracción gratis:\n\t" + this.atraccionGratis + "\n\tTiempo Total es de "
-				+ this.getTiempo() + "hs.";
+				+ this.getTiempo() + "hs.\n";
 	}
 }

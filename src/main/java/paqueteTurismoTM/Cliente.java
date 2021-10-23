@@ -35,7 +35,7 @@ public class Cliente {
 	@Override
 	public String toString() {
 		return "Cliente [nombre=" + nombre + ", preferencia=" + preferencia + ", presupuesto=" + presupuesto
-				+ ", tiempo=" + tiempo_disponible + "]";
+				+ ", tiempo=" + tiempo_disponible + "]\n";
 	}
 
 	public boolean responderPregunta() throws IOException {
@@ -76,22 +76,18 @@ public class Cliente {
 	}
 
 	public int getPresupuesto() {
-		// TODO Auto-generated method stub
 		return presupuesto;
 	}
 
 	public String getNombre() {
-		// TODO Auto-generated method stub
 		return nombre;
 	}
 
 	public double getTiempo_disponible() {
-		// TODO Auto-generated method stub
 		return tiempo_disponible;
 	}
 
 	public int getId_cliente() {
-		// TODO Auto-generated method stub
 		return id_cliente;
 	}
 }

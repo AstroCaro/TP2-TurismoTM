@@ -15,7 +15,7 @@ public class ClienteDAOImpl implements ClienteDAO {
 	public ArrayList<Cliente> findAll() {
 		try {
 			String sql = "SELECT id_cliente, nombre, tipo_atraccion, presupuesto, tiempo_disponible " + "FROM clientes "
-					+ "JOIN \"tipo atraccion\" ON \"tipo atraccion\".id_tipoatraccion = clientes.fk_tipoatraccion ";
+					+ "JOIN \"tipo atraccion\" ON \"tipo atraccion\".id_tipoatraccion = clientes.fk_tipoatraccion ;";
 			Connection conn = ConnectionProvider.getConnection();
 			PreparedStatement statement = conn.prepareStatement(sql);
 			ResultSet resultados = statement.executeQuery();
@@ -30,21 +30,11 @@ public class ClienteDAOImpl implements ClienteDAO {
 			throw new MissingDataException(e);
 		}
 	}
-
-	private Cliente toCliente(ResultSet resultados) {
-		try {
-			return new Cliente(resultados.getInt("id_cliente"), resultados.getString("nombre"), resultados.getString("tipo_atraccion"),
-					resultados.getInt("presupuesto"), resultados.getDouble("tiempo_disponible"));
-
-		} catch (Exception e) {
-			throw new MissingDataException(e);
-		}
-	}
-
+	
 	@Override
 	public int update(Cliente cliente) {
 		try {
-			String sql = "UPDATE CLIENTES SET PRESUPUESTO = ?, TIEMPO_DISPONIBLE = ? WHERE NOMBRE = ?";
+			String sql = "UPDATE CLIENTES SET PRESUPUESTO = ?, TIEMPO_DISPONIBLE = ? WHERE ID_CLIENTE = ?;";
 			Connection conn = ConnectionProvider.getConnection();
 
 			PreparedStatement statement = conn.prepareStatement(sql);
@@ -54,6 +44,16 @@ public class ClienteDAOImpl implements ClienteDAO {
 			int rows = statement.executeUpdate();
 
 			return rows;
+		} catch (Exception e) {
+			throw new MissingDataException(e);
+		}
+	}
+
+	private Cliente toCliente(ResultSet resultados) {
+		try {
+			return new Cliente(resultados.getInt("id_cliente"), resultados.getString("nombre"), resultados.getString("tipo_atraccion"),
+					resultados.getInt("presupuesto"), resultados.getDouble("tiempo_disponible"));
+
 		} catch (Exception e) {
 			throw new MissingDataException(e);
 		}

@@ -17,6 +17,6 @@ public class PromocionAbsoluta extends Promocion {
 	public String toString() {
 		return "" + nombre + " contiene las siguientes atracciones de tipo " + "[" + tipoAtraccion + "]:"+ "\n\t"
 				+ this.atracciones + "\n\tSu costo total es de " + this.getCosto() + " monedas de oro"
-				+ "\n\tEl tiempo total necesario es de " + this.getTiempo() + " Hs.";
+				+ "\n\tEl tiempo total necesario es de " + this.getTiempo() + " Hs.\n";
 	}
 }

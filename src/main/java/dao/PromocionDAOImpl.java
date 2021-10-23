@@ -139,18 +139,18 @@ public class PromocionDAOImpl implements PromocionDAO {
 		return promociones;
 	}
 
-	public int findIdPorNombre(Promocion unaPromocion) {
+	public int findIdPorNombre(String nombrePromocion) {
 		try {
-
 			String sql = "SELECT id_promocion " + "FROM promociones " + "WHERE nombre LIKE ?";
 			Connection conn = ConnectionProvider.getConnection();
 			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setString(1, nombrePromocion);
 			ResultSet resultados = statement.executeQuery();
+
 			int id_promocion = 0;
 			if (resultados.next()) {
 				id_promocion = resultados.getInt("id_promocion");
 			}
-
 			return id_promocion;
 		} catch (Exception e) {
 			throw new MissingDataException(e);
