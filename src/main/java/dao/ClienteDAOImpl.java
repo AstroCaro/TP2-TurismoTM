@@ -4,8 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+
 
 import jdbc.ConnectionProvider;
 import paqueteTurismoTM.Cliente;
@@ -13,15 +12,15 @@ import paqueteTurismoTM.Cliente;
 public class ClienteDAOImpl implements ClienteDAO {
 
 	@Override
-	public List<Cliente> findAll() {
+	public ArrayList<Cliente> findAll() {
 		try {
-			String sql = "SELECT nombre, tipo_atraccion, presupuesto, tiempo_disponible " + "FROM clientes "
+			String sql = "SELECT id_cliente, nombre, tipo_atraccion, presupuesto, tiempo_disponible " + "FROM clientes "
 					+ "JOIN \"tipo atraccion\" ON \"tipo atraccion\".id_tipoatraccion = clientes.fk_tipoatraccion ";
 			Connection conn = ConnectionProvider.getConnection();
 			PreparedStatement statement = conn.prepareStatement(sql);
 			ResultSet resultados = statement.executeQuery();
 
-			List<Cliente> clientes = new LinkedList<Cliente>();
+			ArrayList<Cliente> clientes = new ArrayList<Cliente>();
 			while (resultados.next()) {
 				clientes.add(toCliente(resultados));
 			}
@@ -34,7 +33,7 @@ public class ClienteDAOImpl implements ClienteDAO {
 
 	private Cliente toCliente(ResultSet resultados) {
 		try {
-			return new Cliente(resultados.getString("nombre"), resultados.getString("tipo_atraccion"),
+			return new Cliente(resultados.getInt("id_cliente"), resultados.getString("nombre"), resultados.getString("tipo_atraccion"),
 					resultados.getInt("presupuesto"), resultados.getDouble("tiempo_disponible"));
 
 		} catch (Exception e) {
@@ -51,7 +50,7 @@ public class ClienteDAOImpl implements ClienteDAO {
 			PreparedStatement statement = conn.prepareStatement(sql);
 			statement.setInt(1, cliente.getPresupuesto());
 			statement.setDouble(2, cliente.getTiempo_disponible());
-			statement.setString(3, cliente.getNombre());
+			statement.setInt(3, cliente.getId_cliente());
 			int rows = statement.executeUpdate();
 
 			return rows;

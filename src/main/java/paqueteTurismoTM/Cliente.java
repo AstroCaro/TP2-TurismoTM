@@ -12,7 +12,8 @@ public class Cliente {
 	protected double tiempo_disponible;
 	protected Itinerario itinerario;
 
-	public Cliente(String nombre, String preferencia, int presupuesto, double tiempo) {
+	public Cliente(int id_cliente, String nombre, String preferencia, int presupuesto, double tiempo) {
+		this.id_cliente = id_cliente;
 		this.nombre = nombre;
 		this.preferencia = preferencia;
 		this.presupuesto = presupuesto;
@@ -87,5 +88,10 @@ public class Cliente {
 	public double getTiempo_disponible() {
 		// TODO Auto-generated method stub
 		return tiempo_disponible;
+	}
+
+	public int getId_cliente() {
+		// TODO Auto-generated method stub
+		return id_cliente;
 	}
 }

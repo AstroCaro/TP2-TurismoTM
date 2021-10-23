@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 
 import jdbc.ConnectionProvider;
 import paqueteTurismoTM.Promocion;
@@ -37,7 +35,7 @@ public class PromocionDAOImpl implements PromocionDAO {
 	}
 
 	@Override
-	public List<Promocion> findAllPromosAbsolutas() {
+	public ArrayList<Promocion> findAllPromosAbsolutas() {
 		try {
 			String sql = "SELECT nombre, tipo_atraccion, costo " + "FROM promociones "
 					+ "JOIN \"tipo atraccion\" ON \"tipo atraccion\".id_tipoatraccion = promociones.fk_tipoatraccion "
@@ -47,7 +45,7 @@ public class PromocionDAOImpl implements PromocionDAO {
 			PreparedStatement statement = conn.prepareStatement(sql);
 			ResultSet resultados = statement.executeQuery();
 
-			List<Promocion> promociones = new LinkedList<Promocion>();
+			ArrayList<Promocion> promociones = new ArrayList<Promocion>();
 			while (resultados.next()) {
 				promociones.add(toPromocionAbsoluta(resultados));
 			}
@@ -59,7 +57,7 @@ public class PromocionDAOImpl implements PromocionDAO {
 	}
 
 	@Override
-	public List<Promocion> findAllPromosPorcentuales() {
+	public ArrayList<Promocion> findAllPromosPorcentuales() {
 		try {
 			String sql = "SELECT nombre, tipo_atraccion, descuento " + "FROM promociones "
 					+ "JOIN \"tipo atraccion\" ON \"tipo atraccion\".id_tipoatraccion = promociones.fk_tipoatraccion "
@@ -69,7 +67,7 @@ public class PromocionDAOImpl implements PromocionDAO {
 			PreparedStatement statement = conn.prepareStatement(sql);
 			ResultSet resultados = statement.executeQuery();
 
-			List<Promocion> promociones = new LinkedList<Promocion>();
+			ArrayList<Promocion> promociones = new ArrayList<Promocion>();
 			while (resultados.next()) {
 				promociones.add(toPromocionPorcentuales(resultados));
 			}
@@ -81,7 +79,7 @@ public class PromocionDAOImpl implements PromocionDAO {
 	}
 
 	@Override
-	public List<Promocion> findAllPromosAxB() {
+	public ArrayList<Promocion> findAllPromosAxB() {
 		try {
 			String sql = "SELECT nombre, tipo_atraccion " + "FROM promociones "
 					+ "JOIN \"tipo atraccion\" ON \"tipo atraccion\".id_tipoatraccion = promociones.fk_tipoatraccion "
@@ -91,7 +89,7 @@ public class PromocionDAOImpl implements PromocionDAO {
 			PreparedStatement statement = conn.prepareStatement(sql);
 			ResultSet resultados = statement.executeQuery();
 
-			List<Promocion> promociones = new LinkedList<Promocion>();
+			ArrayList<Promocion> promociones = new ArrayList<Promocion>();
 			while (resultados.next()) {
 				promociones.add(toPromocionAxB(resultados));
 			}
@@ -133,12 +131,30 @@ public class PromocionDAOImpl implements PromocionDAO {
 	}
 
 	@Override
-	public List<Promocion> findAll() {
-		List<Promocion> promociones = new LinkedList<Promocion>();
+	public ArrayList<Promocion> findAll() {
+		ArrayList<Promocion> promociones = new ArrayList<Promocion>();
 		promociones.addAll(findAllPromosAbsolutas());
 		promociones.addAll(findAllPromosPorcentuales());
 		promociones.addAll(findAllPromosAxB());
 		return promociones;
+	}
+
+	public int findIdPorNombre(Promocion unaPromocion) {
+		try {
+
+			String sql = "SELECT id_promocion " + "FROM promociones " + "WHERE nombre LIKE ?";
+			Connection conn = ConnectionProvider.getConnection();
+			PreparedStatement statement = conn.prepareStatement(sql);
+			ResultSet resultados = statement.executeQuery();
+			int id_promocion = 0;
+			if (resultados.next()) {
+				id_promocion = resultados.getInt("id_promocion");
+			}
+
+			return id_promocion;
+		} catch (Exception e) {
+			throw new MissingDataException(e);
+		}
 	}
 
 }

@@ -5,6 +5,7 @@ import paqueteTurismoTM.Atraccion;
 
 public interface AtraccionDAO extends GenericDAO<Atraccion> {
 	
-	public int Update(Atraccion t);
+	public abstract int Update(Atraccion t);
+	public abstract int findIdPorNombre(Atraccion unaAtraccion);
 
 }

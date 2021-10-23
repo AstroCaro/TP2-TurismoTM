@@ -8,17 +8,20 @@ public class Itinerario {
 	public ArrayList<Oferta> ofertasCompradas;
 	protected int montoTotal;
 	protected double horasTotales;
-	protected int idCliente;
+	
 	public Itinerario() {
 		ofertasCompradas = new ArrayList<Oferta>();
 	}
-	public Itinerario(ArrayList<Oferta> ofertasCompradas, int montoTotal, double horasTotales, int idCliente) {
+	public Itinerario(ArrayList<Oferta> ofertasCompradas, int montoTotal, double horasTotales) {
 		super();
 		this.ofertasCompradas = ofertasCompradas;
 		this.montoTotal = montoTotal;
 		this.horasTotales = horasTotales;
-		this.idCliente = idCliente;
+		
 	}
+	
+	
+	
 	public int getMontoTotal() {
 		montoTotal=0;
 		for (Oferta oferta : ofertasCompradas) {
