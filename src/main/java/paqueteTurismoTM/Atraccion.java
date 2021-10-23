@@ -14,6 +14,10 @@ public class Atraccion extends Oferta {
 		this.cuposDisponibles = cuposDisponibles;
 	}
 
+	public int getIdAtraccion() {
+		return id_atraccion;
+	}
+	
 	public int getCosto() {
 		return costo;
 	}
