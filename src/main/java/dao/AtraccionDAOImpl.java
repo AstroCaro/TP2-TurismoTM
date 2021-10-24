@@ -13,7 +13,7 @@ public class AtraccionDAOImpl implements AtraccionDAO {
 	@Override
 	public ArrayList<Atraccion> findAll() {
 		try {
-			String sql = "SELECT nombre, costo, tiempo, cupos_disponibles, tipo_atraccion " + "FROM atracciones "
+			String sql = "SELECT id_atraccion, nombre, costo, tiempo, cupos_disponibles, tipo_atraccion " + "FROM atracciones "
 					+ "JOIN \"tipo atraccion\" ON \"tipo atraccion\".id_tipoatraccion = atracciones.fk_tipoatraccion; ";
 			Connection conn = ConnectionProvider.getConnection();
 			PreparedStatement statement = conn.prepareStatement(sql);
@@ -45,7 +45,7 @@ public class AtraccionDAOImpl implements AtraccionDAO {
 			throw new MissingDataException(e);
 		}
 	}
-
+//BORRAR!!
 	@Override
 	public int findIdPorNombre(String nombreAtraccion) {
 		try {
@@ -69,7 +69,7 @@ public class AtraccionDAOImpl implements AtraccionDAO {
 
 	private Atraccion toAtraccion(ResultSet resultados) {
 		try {
-			return new Atraccion(resultados.getString("nombre"), resultados.getInt("costo"),
+			return new Atraccion(resultados.getInt("id_atraccion"), resultados.getString("nombre"), resultados.getInt("costo"),
 					resultados.getDouble("tiempo"), resultados.getInt("cupos_disponibles"),
 					resultados.getString("tipo_atraccion"));
 

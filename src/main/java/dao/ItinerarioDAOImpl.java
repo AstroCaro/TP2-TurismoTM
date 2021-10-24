@@ -53,15 +53,12 @@ public class ItinerarioDAOImpl implements ItinerarioDAO {
 
 	public int insertAtraccion(int id_cliente, Atraccion unaAtraccion) {
 		try {
-			AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
-			String nombreAtraccion = unaAtraccion.getNombre();
-			int fk_atraccion = atraccionDAO.findIdPorNombre(nombreAtraccion);
 			String sql = "INSERT INTO itinerarios (fk_cliente, fk_atraccion, costo, tiempo) VALUES (?, ?, ?, ?);";
 			Connection conn = ConnectionProvider.getConnection();
 
 			PreparedStatement statement = conn.prepareStatement(sql);
 			statement.setInt(1, id_cliente);
-			statement.setInt(2, fk_atraccion);
+			statement.setInt(2, unaAtraccion.getId_atraccion());
 			statement.setInt(3, unaAtraccion.getCosto());
 			statement.setDouble(4, unaAtraccion.getTiempo());
 			int rows = statement.executeUpdate();
@@ -74,14 +71,12 @@ public class ItinerarioDAOImpl implements ItinerarioDAO {
 
 	public int insertPromocion(int id_cliente, Promocion unaPromocion) {
 		try {
-			PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
-			int fk_promocion = promocionDAO.findIdPorNombre(unaPromocion.getNombre());
 			String sql = "INSERT INTO itinerarios (fk_cliente, fk_promocion, costo, tiempo) VALUES (?, ?, ?, ?);";
 			Connection conn = ConnectionProvider.getConnection();
 
 			PreparedStatement statement = conn.prepareStatement(sql);
 			statement.setInt(1, id_cliente);
-			statement.setInt(2, fk_promocion);
+			statement.setInt(2, unaPromocion.getId_promocion());
 			statement.setInt(3, unaPromocion.getCosto());
 			statement.setDouble(4, unaPromocion.getTiempo());
 			int rows = statement.executeUpdate();

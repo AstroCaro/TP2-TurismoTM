@@ -19,28 +19,28 @@ CREATE TABLE "tipo atraccion" (
 DROP TABLE IF EXISTS "atracciones";
 CREATE TABLE "atracciones" (
 	"id_atraccion"	INTEGER NOT NULL,
-	"nombre"	TEXT NOT NULL,
+	"nombre"	TEXT NOT NULL UNIQUE,
 	"costo"	INTEGER NOT NULL,
 	"tiempo"	REAL NOT NULL,
 	"cupos_disponibles"	INTEGER NOT NULL,
 	"fk_tipoatraccion"	INTEGER NOT NULL,
 	FOREIGN KEY("fk_tipoatraccion") REFERENCES "tipo atraccion"("id_tipoatraccion"),
 	PRIMARY KEY("id_atraccion" AUTOINCREMENT)
-);
+)
 
 DROP TABLE IF EXISTS "promociones";
 CREATE TABLE "promociones" (
 	"id_promocion"	INTEGER NOT NULL,
-	"nombre"	TEXT NOT NULL,
-	"fk_tipopromocion"	INTEGER NOT NULL,--id -> ABSOLUTA, PORCENTUAL, AxB
+	"nombre"	TEXT NOT NULL UNIQUE,
+	"fk_tipopromocion"	INTEGER NOT NULL,
 	"fk_tipoatraccion"	INTEGER NOT NULL,
 	"costo"	INTEGER,
 	"descuento"	REAL,
-	"atraccion_gratis" INTEGER,
+	"atraccion_gratis"	INTEGER,
 	PRIMARY KEY("id_promocion" AUTOINCREMENT),
 	FOREIGN KEY("fk_tipopromocion") REFERENCES "tipo promocion"("id_tipopromocion"),
 	FOREIGN KEY("fk_tipoatraccion") REFERENCES "tipo atraccion"("id_tipoatraccion")
-);
+)
 
 DROP TABLE IF EXISTS "tipo promocion";
 CREATE TABLE "tipo promocion" (
@@ -61,12 +61,13 @@ DROP TABLE IF EXISTS "itinerarios";
 CREATE TABLE "itinerarios" (
 	"fk_cliente"	INTEGER NOT NULL,
 	"fk_atraccion"	INTEGER,
-	"fk_promocion" INTEGER,
-	"tiempo" REAL,
-	"costo" INTEGER,
+	"fk_promocion"	INTEGER,
+	"costo"	INTEGER,
+	"tiempo"	REAL,
+	FOREIGN KEY("fk_promocion") REFERENCES "promociones"("id_promocion"),
 	FOREIGN KEY("fk_atraccion") REFERENCES "atracciones"("id_atraccion"),
 	FOREIGN KEY("fk_cliente") REFERENCES "clientes"("id_cliente")
-);
+)
 
 INSERT INTO "tipo atraccion" VALUES 
 	(1, 'AVENTURA'),

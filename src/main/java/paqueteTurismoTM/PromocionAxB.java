@@ -6,8 +6,8 @@ public class PromocionAxB extends Promocion {
 
 	public String atraccionGratis;
 	
-	public PromocionAxB(String nombre, String tipoAtraccion, ArrayList<String> atracciones) {
-		super(nombre, tipoAtraccion, atracciones);
+	public PromocionAxB(int id_promocion, String nombre, String tipoAtraccion, ArrayList<String> atracciones) {
+		super(id_promocion,nombre, tipoAtraccion, atracciones);
 		this.atraccionGratis = atracciones.get(atracciones.size()-1);
 	}
 

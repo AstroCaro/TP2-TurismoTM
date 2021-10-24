@@ -22,7 +22,7 @@ public class App {
 		ofertas.addAll(atraccionDAO.findAll());
 		System.out.println(ofertas);
 		
-		Atraccion unaAtraccion = new Atraccion("Rivendell",20,4, 9,"PAISAJE");
+		Atraccion unaAtraccion = new Atraccion(12,"Rivendell",20,4, 9,"PAISAJE");
 		atraccionDAO.update(unaAtraccion);
 		
 		System.out.println("El id de la atraccion "+ unaAtraccion.getNombre() + " es: "+ atraccionDAO.findIdPorNombre(unaAtraccion.getNombre()));

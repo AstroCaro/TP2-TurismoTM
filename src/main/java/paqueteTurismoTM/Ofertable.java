@@ -18,7 +18,6 @@ public class Ofertable {
 		for (Oferta unaOferta : TurismoTM.ofertas) {
 			ofertasCopia.add(unaOferta);
 		}
-		quitarOfertasSinCupo();
 		quitarOfertasDeItinerario(unCliente);
 		return (TurismoTM.ofertas != null);
 	}
@@ -48,7 +47,7 @@ public class Ofertable {
 				}
 			} else
 				for (Oferta b : copia) {
-					if (unaOferta.equals(b.nombre)) {
+					if (unaOferta.getNombre().equals(b.nombre)) {
 						ofertasCopia.remove(b);
 					}
 
@@ -59,6 +58,7 @@ public class Ofertable {
 	public static boolean hayOfertaDisponible(Cliente unCliente) {
 		// ciclo que se repite cada vez que el cliente quiera seguir comprando
 		quitarOfertasQueNoPuedeComprar(unCliente);
+		quitarOfertasSinCupo();
 //		quitarOfertasCompradas(unCliente);
 		// devuelve un booleano para saber si existe oferta para el mismo cliente
 		return (ofertasCopia.size() > 0);

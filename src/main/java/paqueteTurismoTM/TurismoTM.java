@@ -38,7 +38,6 @@ public class TurismoTM {
 			mensajeBienvenida(unCliente);
 			cargarItinerario(unCliente);
 			if (Ofertable.comprobarSiHayOferta(unCliente)) {
-				unCliente.itinerario = new Itinerario();
 				Ofertable.ordenarOfertas(unCliente.preferencia);
 				while (seguirOfreciendo) {
 					if (Ofertable.hayOfertaDisponible(unCliente)) {
@@ -49,6 +48,8 @@ public class TurismoTM {
 							System.out.print("Compra exitosa!");
 							Ofertable.quitarOfertasCompradas();
 							unaOferta.venderCupo();
+							insertarEnItineario(unCliente, unaOferta);
+							actualizarCupos(unCliente,unaOferta);
 							mensajeQuieresVerOtraOferta();
 							seguirOfreciendo = unCliente.responderPregunta();
 						} else {
@@ -65,39 +66,34 @@ public class TurismoTM {
 				mensajeNoHayMasCupos();
 			}
 			mensajeItinerario(unCliente);
-			insertarEnItineario(unCliente);
-			actualizarBD(unCliente);
 		}
 		mensajeFinDelPrograma();
 
 	}
 
-	private static void actualizarBD(Cliente unCliente) {
+	private static void actualizarCupos(Cliente unCliente, Oferta unaOferta) {
 		ClienteDAO clienteDAO = DAOFactory.getClienteDAO();
 		clienteDAO.update(unCliente);
-		
-		for (Oferta unaOferta:unCliente.itinerario.ofertasCompradas) {
-			if (unaOferta instanceof Promocion) {
-				Promocion unaPromocion = (Promocion) unaOferta;
-				for (String atraccionComprada:unaPromocion.getAtracciones()) {
-					for (Oferta b:TurismoTM.ofertas) {
-						if (atraccionComprada.equals(b.nombre)) {
-							actualizarCupoDeAtraccion(b);
-						}
+		if (unaOferta instanceof Promocion) {
+			Promocion unaPromocion = (Promocion) unaOferta;
+			for (String atraccionComprada : unaPromocion.getAtracciones()) {
+				for (Oferta b : TurismoTM.ofertas) {
+					if (atraccionComprada.equals(b.nombre)) {
+						actualizarCupoDeAtraccion(b);
 					}
 				}
 			}
-			else if(unaOferta instanceof Atraccion) {
+			} else if (unaOferta instanceof Atraccion) {
 				actualizarCupoDeAtraccion(unaOferta);
 			}
 		}
-		
-	}
+
+
 
 	private static void actualizarCupoDeAtraccion(Oferta unaOferta) {
 		AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
 		Atraccion unaAtraccion = (Atraccion) unaOferta;
-		atraccionDAO.update(unaAtraccion);		
+		atraccionDAO.update(unaAtraccion);
 	}
 
 	private static void cargarItinerario(Cliente unCliente) {
@@ -106,18 +102,15 @@ public class TurismoTM {
 
 	}
 
-	private static void insertarEnItineario(Cliente unCliente) {
+	private static void insertarEnItineario(Cliente unCliente, Oferta unaOferta) {
 
 		ItinerarioDAO itinerarioDAO = DAOFactory.getItinerarioDAO();
-		for (Oferta unaOferta : unCliente.itinerario.ofertasCompradas) {
-			if (unaOferta instanceof Promocion) {
-				Promocion unaPromocion = (Promocion) unaOferta;
-				itinerarioDAO.insertPromocion(unCliente.id_cliente, unaPromocion);
-			} else if (unaOferta instanceof Atraccion) {
-				Atraccion unaAtraccion = (Atraccion) unaOferta;
-				itinerarioDAO.insertAtraccion(unCliente.id_cliente, unaAtraccion);
-			}
-
+		if (unaOferta instanceof Promocion) {
+			Promocion unaPromocion = (Promocion) unaOferta;
+			itinerarioDAO.insertPromocion(unCliente.id_cliente, unaPromocion);
+		} else if (unaOferta instanceof Atraccion) {
+			Atraccion unaAtraccion = (Atraccion) unaOferta;
+			itinerarioDAO.insertAtraccion(unCliente.id_cliente, unaAtraccion);
 		}
 
 	}
