@@ -14,15 +14,19 @@ public class TurismoTM {
 	public static ArrayList<Cliente> clientes = new ArrayList<Cliente>();
 	public static ArrayList<Oferta> ofertas = new ArrayList<Oferta>();
 	public static ArrayList<Oferta> atracciones = new ArrayList<Oferta>();
-
+	public static ArrayList<Oferta> promociones = new ArrayList<Oferta>();
+	
 	public static void main(String[] args) throws IOException {
 
 		ClienteDAO clienteDAO = DAOFactory.getClienteDAO();
 		clientes.addAll(clienteDAO.findAll());
+		
 		AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
 		atracciones.addAll(atraccionDAO.findAll());
 		ofertas.addAll(atraccionDAO.findAll());
+		
 		PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
+		promociones.addAll(promocionDAO.findAll());
 		ofertas.addAll(promocionDAO.findAll());
 
 		sugerenciaCliente();
@@ -93,7 +97,7 @@ public class TurismoTM {
 	private static void actualizarCupoDeAtraccion(Oferta unaOferta) {
 		AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
 		Atraccion unaAtraccion = (Atraccion) unaOferta;
-		atraccionDAO.update(unaAtraccion);
+		atraccionDAO.updateCupo(unaAtraccion);
 	}
 
 	private static void cargarItinerario(Cliente unCliente) {

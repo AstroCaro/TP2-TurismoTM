@@ -47,7 +47,7 @@ public class PromocionDAOImpl implements PromocionDAO {
 
 			ArrayList<Promocion> promociones = new ArrayList<Promocion>();
 			while (resultados.next()) {
-				promociones.add(toPromocionAbsoluta(resultados));
+				promociones.add(toPromocion(resultados));
 			}
 
 			return promociones;
@@ -69,7 +69,7 @@ public class PromocionDAOImpl implements PromocionDAO {
 
 			ArrayList<Promocion> promociones = new ArrayList<Promocion>();
 			while (resultados.next()) {
-				promociones.add(toPromocionPorcentuales(resultados));
+				promociones.add(toPromocion(resultados));
 			}
 
 			return promociones;
@@ -91,7 +91,7 @@ public class PromocionDAOImpl implements PromocionDAO {
 
 			ArrayList<Promocion> promociones = new ArrayList<Promocion>();
 			while (resultados.next()) {
-				promociones.add(toPromocionAxB(resultados));
+				promociones.add(toPromocion(resultados));
 			}
 
 			return promociones;
@@ -100,44 +100,90 @@ public class PromocionDAOImpl implements PromocionDAO {
 		}
 	}
 
-	private Promocion toPromocionAbsoluta(ResultSet resultados) {
+	private Promocion toPromocion(ResultSet resultados) {
 		try {
+			Promocion unaPromocion = null;
 			ArrayList<String> arrayDeAtracciones = listarAtraccionesIncluidas(resultados.getString("nombre"));
-			return new PromocionAbsoluta(resultados.getInt("id_promocion"), resultados.getString("nombre"), resultados.getString("tipo_atraccion"),
-					resultados.getInt("costo"), arrayDeAtracciones);
+			String tipoPromocion = resultados.getString("tipo_promocion");
+			switch (tipoPromocion) {
+			case "ABSOLUTA":
+				unaPromocion = new PromocionAbsoluta(resultados.getInt("id_promocion"), resultados.getString("nombre"),
+						resultados.getString("tipo_atraccion"), resultados.getInt("costo"), arrayDeAtracciones);
+				break;
+			case "PORCENTUAL":
+				unaPromocion = new PromocionPorcentual(resultados.getInt("id_promocion"),
+						resultados.getString("nombre"), resultados.getString("tipo_atraccion"),
+						resultados.getDouble("descuento"), arrayDeAtracciones);
+				break;
+			case "AxB":
+				unaPromocion = new PromocionAxB(resultados.getInt("id_promocion"), resultados.getString("nombre"),
+						resultados.getString("tipo_atraccion"), arrayDeAtracciones);
+				break;
+			}
+			return unaPromocion;
 		} catch (Exception e) {
 			throw new MissingDataException(e);
 		}
 	}
-
-	private Promocion toPromocionPorcentuales(ResultSet resultados) {
-		try {
-			ArrayList<String> arrayDeAtracciones = listarAtraccionesIncluidas(resultados.getString("nombre"));
-			return new PromocionPorcentual(resultados.getInt("id_promocion"), resultados.getString("nombre"), resultados.getString("tipo_atraccion"),
-					resultados.getDouble("descuento"), arrayDeAtracciones);
-		} catch (Exception e) {
-			throw new MissingDataException(e);
-		}
-	}
-
-	private Promocion toPromocionAxB(ResultSet resultados) {
-		try {
-			ArrayList<String> arrayDeAtracciones = listarAtraccionesIncluidas(resultados.getString("nombre"));
-			return new PromocionAxB(resultados.getInt("id_promocion"), resultados.getString("nombre"), resultados.getString("tipo_atraccion"),
-					arrayDeAtracciones);
-		} catch (Exception e) {
-			throw new MissingDataException(e);
-		}
-	}
+//
+//	private Promocion toPromocionAbsoluta(ResultSet resultados) {
+//		try {
+//			ArrayList<String> arrayDeAtracciones = listarAtraccionesIncluidas(resultados.getString("nombre"));
+//			return new PromocionAbsoluta(resultados.getInt("id_promocion"), resultados.getString("nombre"),
+//					resultados.getString("tipo_atraccion"), resultados.getInt("costo"), arrayDeAtracciones);
+//		} catch (Exception e) {
+//			throw new MissingDataException(e);
+//		}
+//	}
+//
+//	private Promocion toPromocionPorcentuales(ResultSet resultados) {
+//		try {
+//			ArrayList<String> arrayDeAtracciones = listarAtraccionesIncluidas(resultados.getString("nombre"));
+//			return new PromocionPorcentual(resultados.getInt("id_promocion"), resultados.getString("nombre"),
+//					resultados.getString("tipo_atraccion"), resultados.getDouble("descuento"), arrayDeAtracciones);
+//		} catch (Exception e) {
+//			throw new MissingDataException(e);
+//		}
+//	}
+//
+//	private Promocion toPromocionAxB(ResultSet resultados) {
+//		try {
+//			ArrayList<String> arrayDeAtracciones = listarAtraccionesIncluidas(resultados.getString("nombre"));
+//			return new PromocionAxB(resultados.getInt("id_promocion"), resultados.getString("nombre"),
+//					resultados.getString("tipo_atraccion"), arrayDeAtracciones);
+//		} catch (Exception e) {
+//			throw new MissingDataException(e);
+//		}
+//	}
 
 	@Override
 	public ArrayList<Promocion> findAll() {
-		ArrayList<Promocion> promociones = new ArrayList<Promocion>();
-		promociones.addAll(findAllPromosAbsolutas());
-		promociones.addAll(findAllPromosPorcentuales());
-		promociones.addAll(findAllPromosAxB());
-		return promociones;
+		try {
+			String sql = "SELECT id_promocion, nombre, tipo_promocion, tipo_atraccion, costo, descuento, atraccion_gratis "
+					+ "FROM promociones "
+					+ "JOIN \"tipo atraccion\" ON \"tipo atraccion\".id_tipoatraccion = promociones.fk_tipoatraccion "
+					+ "JOIN \"tipo promocion\" ON \"tipo promocion\".id_tipopromocion = promociones.fk_tipopromocion;";
+			Connection conn = ConnectionProvider.getConnection();
+			PreparedStatement statement = conn.prepareStatement(sql);
+			ResultSet resultados = statement.executeQuery();
+
+			ArrayList<Promocion> promociones = new ArrayList<Promocion>();
+			while (resultados.next()) {
+				promociones.add(toPromocion(resultados));
+			}
+
+			return promociones;
+		} catch (Exception e) {
+			throw new MissingDataException(e);
+		}
+		
+//		ArrayList<Promocion> promociones = new ArrayList<Promocion>();
+//		promociones.addAll(findAllPromosAbsolutas());
+//		promociones.addAll(findAllPromosPorcentuales());
+//		promociones.addAll(findAllPromosAxB());
+//		return promociones;
 	}
+
 //BORRAR!!!!!!!!!
 	public int findIdPorNombre(String nombrePromocion) {
 		try {

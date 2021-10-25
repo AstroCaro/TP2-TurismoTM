@@ -1,6 +1,7 @@
 package paqueteTurismoTM;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public abstract class Promocion extends Oferta {
 	protected int id_promocion;
@@ -61,6 +62,28 @@ public abstract class Promocion extends Oferta {
 			}
 		}
 		return cupoDisponible;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + Objects.hash(atracciones, costo, cuposDisponibles, id_promocion, tiempoTotal);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Promocion other = (Promocion) obj;
+		return Objects.equals(atracciones, other.atracciones) && costo == other.costo
+				&& cuposDisponibles == other.cuposDisponibles && id_promocion == other.id_promocion
+				&& Double.doubleToLongBits(tiempoTotal) == Double.doubleToLongBits(other.tiempoTotal);
 	}
 
 	public abstract int getCosto();

@@ -88,7 +88,7 @@ public class ItinerarioDAOImpl implements ItinerarioDAO {
 	}
 
 	@Override
-	public List<Itinerario> findAll() {
+	public ArrayList<Itinerario> findAll() {
 		// TODO Auto-generated method stub
 		return null;
 	}

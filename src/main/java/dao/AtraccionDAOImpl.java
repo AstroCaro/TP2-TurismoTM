@@ -31,7 +31,7 @@ public class AtraccionDAOImpl implements AtraccionDAO {
 	}
 
 	@Override
-	public int update(Atraccion atraccion) {
+	public int updateCupo(Atraccion atraccion) {
 		try {
 			String sql = "UPDATE atracciones SET cupos_disponibles = ? WHERE nombre = ?;";
 			Connection conn = ConnectionProvider.getConnection();
@@ -47,21 +47,24 @@ public class AtraccionDAOImpl implements AtraccionDAO {
 	}
 //BORRAR!!
 	@Override
-	public int findIdPorNombre(String nombreAtraccion) {
+	public Atraccion findAtraccionPorNombre(String nombreAtraccion) {
 		try {
-			String sql = "SELECT id_atraccion " + "FROM atracciones " + "WHERE nombre LIKE ?;";
+			String sql = "SELECT id_atraccion, nombre, costo, tiempo, cupos_disponibles, tipo_atraccion "
+					+ "FROM atracciones "
+					+ "JOIN \"tipo atraccion\" ON \"tipo atraccion\".id_tipoatraccion = atracciones.fk_tipoatraccion "
+					+ "WHERE nombre LIKE ?;";
 			Connection conn = ConnectionProvider.getConnection();
 			PreparedStatement statement = conn.prepareStatement(sql);
 			
 			statement.setString(1, nombreAtraccion);
-			ResultSet resultados = statement.executeQuery();
+			ResultSet resultado = statement.executeQuery();
 			
-			int id_atraccion = 0;
-			if (resultados.next()) {
-				id_atraccion = resultados.getInt("id_atraccion");
+			Atraccion atraccion = null;
+			if (resultado.next()) {
+				atraccion= toAtraccion(resultado);
 			}
 
-			return id_atraccion;
+			return atraccion;
 		} catch (Exception e) {
 			throw new MissingDataException(e);
 		}

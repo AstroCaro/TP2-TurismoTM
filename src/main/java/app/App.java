@@ -23,17 +23,17 @@ public class App {
 		System.out.println(ofertas);
 		
 		Atraccion unaAtraccion = new Atraccion(12,"Rivendell",20,4, 9,"PAISAJE");
-		atraccionDAO.update(unaAtraccion);
+		atraccionDAO.updateCupo(unaAtraccion);
 		
-		System.out.println("El id de la atraccion "+ unaAtraccion.getNombre() + " es: "+ atraccionDAO.findIdPorNombre(unaAtraccion.getNombre()));
+	//	System.out.println("El id de la atraccion "+ unaAtraccion.getNombre() + " es: "+ atraccionDAO.findIdPorNombre(unaAtraccion.getNombre()));
 		
 		/*************** APP PromocionDAO ****************/
 		PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
 		String promo = "PromocionAbsoluta 1";
 		System.out.println(promocionDAO.listarAtraccionesIncluidas(promo));
-		System.out.println(promocionDAO.findAllPromosAbsolutas());
-		System.out.println(promocionDAO.findAllPromosPorcentuales());
-		System.out.println(promocionDAO.findAllPromosAxB());
+//		System.out.println(promocionDAO.findAllPromosAbsolutas());
+//		System.out.println(promocionDAO.findAllPromosPorcentuales());
+//		System.out.println(promocionDAO.findAllPromosAxB());
 		System.out.println(promocionDAO.findAll());		
 		
 		ofertas.addAll(promocionDAO.findAll());
@@ -56,7 +56,7 @@ public class App {
 		//System.out.println((Promocion) ofertas.get(12));
 		itinerarioDAO.insertAtraccion(unCliente.getId_cliente(), unaAtraccion);
 		itinerarioDAO.insertPromocion(unCliente.getId_cliente(), unaPromocion);
-		System.out.println(itinerarioDAO.findItinerarioPorCliente(unCliente.getId_cliente()));
+		System.out.println(itinerarioDAO.findItinerarioPorCliente(unCliente.getId_cliente())); //cambiar TurismoTM.ofertas, para que funcione
 	}
 		
 		

@@ -1,6 +1,7 @@
 package paqueteTurismoTM;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class PromocionPorcentual extends Promocion {
 
@@ -31,4 +32,26 @@ public class PromocionPorcentual extends Promocion {
 				+ atracciones + "\n\tSu costo total es de " + this.getCosto() + " monedas de oro"
 				+ "\n\tEl tiempo total necesario es de " + this.getTiempo() + " Hs.\n";
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + Objects.hash(descuento);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PromocionPorcentual other = (PromocionPorcentual) obj;
+		return Double.doubleToLongBits(descuento) == Double.doubleToLongBits(other.descuento);
+	}
+	
+	
 }
