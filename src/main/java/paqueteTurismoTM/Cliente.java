@@ -3,6 +3,7 @@ package paqueteTurismoTM;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Objects;
 
 public class Cliente {
 	protected int id_cliente;
@@ -90,4 +91,26 @@ public class Cliente {
 	public int getId_cliente() {
 		return id_cliente;
 	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id_cliente, nombre, preferencia, presupuesto, tiempo_disponible);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Cliente other = (Cliente) obj;
+		return id_cliente == other.id_cliente && Objects.equals(nombre, other.nombre)
+				&& Objects.equals(preferencia, other.preferencia) && presupuesto == other.presupuesto
+				&& Double.doubleToLongBits(tiempo_disponible) == Double.doubleToLongBits(other.tiempo_disponible);
+	}
+
+	
+	
 }

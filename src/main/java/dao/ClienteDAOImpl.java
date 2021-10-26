@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 
 import jdbc.ConnectionProvider;
+
 import paqueteTurismoTM.Cliente;
 
 public class ClienteDAOImpl implements ClienteDAO {
@@ -44,6 +45,27 @@ public class ClienteDAOImpl implements ClienteDAO {
 			int rows = statement.executeUpdate();
 
 			return rows;
+		} catch (Exception e) {
+			throw new MissingDataException(e);
+		}
+	}
+	public Cliente findClientePorID(int id_cliente) {
+		try {
+			String sql ="SELECT id_cliente, nombre, tipo_atraccion, presupuesto, tiempo_disponible " + "FROM clientes "
+					+ "JOIN \"tipo atraccion\" ON \"tipo atraccion\".id_tipoatraccion = clientes.fk_tipoatraccion "
+					+ "WHERE id_cliente = ?;";
+			Connection conn = ConnectionProvider.getConnection();
+			PreparedStatement statement = conn.prepareStatement(sql);
+			
+			statement.setInt(1, id_cliente);
+			ResultSet resultado = statement.executeQuery();
+			
+			Cliente cliente = null;
+			if (resultado.next()) {
+				cliente = toCliente(resultado);
+			}
+
+			return cliente;
 		} catch (Exception e) {
 			throw new MissingDataException(e);
 		}

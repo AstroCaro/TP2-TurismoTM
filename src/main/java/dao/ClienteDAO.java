@@ -4,6 +4,8 @@ import paqueteTurismoTM.Cliente;
 
 public interface ClienteDAO extends GenericDAO<Cliente> {
 
-	public int update(Cliente t);
+	public abstract int update(Cliente t);
+
+	public abstract Cliente findClientePorID(int id_cliente);
 
 }
