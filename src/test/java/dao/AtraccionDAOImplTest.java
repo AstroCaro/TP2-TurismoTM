@@ -61,8 +61,6 @@ public class AtraccionDAOImplTest {
 		atraccionesEsperadas.add(minasTirith);
 		atraccionesEsperadas.add(rivendell);
 
-		System.out.println(atraccionDAO.findAll());
-		System.out.println(atraccionesEsperadas);
 		assertEquals(atraccionesEsperadas, atraccionesReales);
 
 	}
@@ -73,7 +71,6 @@ public class AtraccionDAOImplTest {
 		Atraccion moria = new Atraccion(1, "Moria", 10, 2.0, 2, "AVENTURA");
 		atraccionDAO.updateCupo(moria);
 		Atraccion atraccionReal = atraccionDAO.findAtraccionPorNombre(moria.getNombre());
-		
 		assertEquals(moria, atraccionReal);
 		
 	}

@@ -111,8 +111,8 @@ INSERT INTO "promociones" VALUES
 	(2, 'PromocionAbsoluta 2', 1, 3, 15, NULL, NULL),
 	(3, 'PromocionPorcentual 1', 2, 1, NULL, 0.20, NULL),
 	(4, 'PromocionPorcentual 2', 2, 1, NULL, 0.30, NULL),
-	(5, 'Promociones AxB1', 3, 3, NULL, NULL, 10),
-	(6, 'Promociones AxB2',3, 1, NULL, NULL, 2);
+	(5, 'PromocionAxB 1', 3, 3, NULL, NULL, 10),
+	(6, 'PromocionAxB 2',3, 1, NULL, NULL, 2);
 	
 INSERT INTO "promocion-atraccion" VALUES
 	(1, 6),

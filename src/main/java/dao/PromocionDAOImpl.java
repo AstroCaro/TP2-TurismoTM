@@ -34,71 +34,71 @@ public class PromocionDAOImpl implements PromocionDAO {
 		}
 	}
 
-	@Override
-	public ArrayList<Promocion> findAllPromosAbsolutas() {
-		try {
-			String sql = "SELECT id_promocion, nombre, tipo_atraccion, costo " + "FROM promociones "
-					+ "JOIN \"tipo atraccion\" ON \"tipo atraccion\".id_tipoatraccion = promociones.fk_tipoatraccion "
-					+ "JOIN \"tipo promocion\" ON \"tipo promocion\".id_tipopromocion = promociones.fk_tipopromocion "
-					+ "WHERE \"tipo promocion\".tipo_promocion='ABSOLUTA';";
-			Connection conn = ConnectionProvider.getConnection();
-			PreparedStatement statement = conn.prepareStatement(sql);
-			ResultSet resultados = statement.executeQuery();
-
-			ArrayList<Promocion> promociones = new ArrayList<Promocion>();
-			while (resultados.next()) {
-				promociones.add(toPromocion(resultados));
-			}
-
-			return promociones;
-		} catch (Exception e) {
-			throw new MissingDataException(e);
-		}
-	}
-
-	@Override
-	public ArrayList<Promocion> findAllPromosPorcentuales() {
-		try {
-			String sql = "SELECT id_promocion, nombre, tipo_atraccion, descuento " + "FROM promociones "
-					+ "JOIN \"tipo atraccion\" ON \"tipo atraccion\".id_tipoatraccion = promociones.fk_tipoatraccion "
-					+ "JOIN \"tipo promocion\" ON \"tipo promocion\".id_tipopromocion = promociones.fk_tipopromocion "
-					+ "WHERE \"tipo promocion\".tipo_promocion='PORCENTUAL';";
-			Connection conn = ConnectionProvider.getConnection();
-			PreparedStatement statement = conn.prepareStatement(sql);
-			ResultSet resultados = statement.executeQuery();
-
-			ArrayList<Promocion> promociones = new ArrayList<Promocion>();
-			while (resultados.next()) {
-				promociones.add(toPromocion(resultados));
-			}
-
-			return promociones;
-		} catch (Exception e) {
-			throw new MissingDataException(e);
-		}
-	}
-
-	@Override
-	public ArrayList<Promocion> findAllPromosAxB() {
-		try {
-			String sql = "SELECT id_promocion, nombre, tipo_atraccion " + "FROM promociones "
-					+ "JOIN \"tipo atraccion\" ON \"tipo atraccion\".id_tipoatraccion = promociones.fk_tipoatraccion "
-					+ "JOIN \"tipo promocion\" ON \"tipo promocion\".id_tipopromocion = promociones.fk_tipopromocion "
-					+ "WHERE \"tipo promocion\".tipo_promocion='AxB';";
-			Connection conn = ConnectionProvider.getConnection();
-			PreparedStatement statement = conn.prepareStatement(sql);
-			ResultSet resultados = statement.executeQuery();
-
-			ArrayList<Promocion> promociones = new ArrayList<Promocion>();
-			while (resultados.next()) {
-				promociones.add(toPromocion(resultados));
-			}
-
-			return promociones;
-		} catch (Exception e) {
-			throw new MissingDataException(e);
-		}
-	}
+//	@Override
+//	public ArrayList<Promocion> findAllPromosAbsolutas() {
+//		try {
+//			String sql = "SELECT id_promocion, nombre, tipo_atraccion, costo " + "FROM promociones "
+//					+ "JOIN \"tipo atraccion\" ON \"tipo atraccion\".id_tipoatraccion = promociones.fk_tipoatraccion "
+//					+ "JOIN \"tipo promocion\" ON \"tipo promocion\".id_tipopromocion = promociones.fk_tipopromocion "
+//					+ "WHERE \"tipo promocion\".tipo_promocion='ABSOLUTA';";
+//			Connection conn = ConnectionProvider.getConnection();
+//			PreparedStatement statement = conn.prepareStatement(sql);
+//			ResultSet resultados = statement.executeQuery();
+//
+//			ArrayList<Promocion> promociones = new ArrayList<Promocion>();
+//			while (resultados.next()) {
+//				promociones.add(toPromocion(resultados));
+//			}
+//
+//			return promociones;
+//		} catch (Exception e) {
+//			throw new MissingDataException(e);
+//		}
+//	}
+//
+//	@Override
+//	public ArrayList<Promocion> findAllPromosPorcentuales() {
+//		try {
+//			String sql = "SELECT id_promocion, nombre, tipo_atraccion, descuento " + "FROM promociones "
+//					+ "JOIN \"tipo atraccion\" ON \"tipo atraccion\".id_tipoatraccion = promociones.fk_tipoatraccion "
+//					+ "JOIN \"tipo promocion\" ON \"tipo promocion\".id_tipopromocion = promociones.fk_tipopromocion "
+//					+ "WHERE \"tipo promocion\".tipo_promocion='PORCENTUAL';";
+//			Connection conn = ConnectionProvider.getConnection();
+//			PreparedStatement statement = conn.prepareStatement(sql);
+//			ResultSet resultados = statement.executeQuery();
+//
+//			ArrayList<Promocion> promociones = new ArrayList<Promocion>();
+//			while (resultados.next()) {
+//				promociones.add(toPromocion(resultados));
+//			}
+//
+//			return promociones;
+//		} catch (Exception e) {
+//			throw new MissingDataException(e);
+//		}
+//	}
+//
+//	@Override
+//	public ArrayList<Promocion> findAllPromosAxB() {
+//		try {
+//			String sql = "SELECT id_promocion, nombre, tipo_atraccion " + "FROM promociones "
+//					+ "JOIN \"tipo atraccion\" ON \"tipo atraccion\".id_tipoatraccion = promociones.fk_tipoatraccion "
+//					+ "JOIN \"tipo promocion\" ON \"tipo promocion\".id_tipopromocion = promociones.fk_tipopromocion "
+//					+ "WHERE \"tipo promocion\".tipo_promocion='AxB';";
+//			Connection conn = ConnectionProvider.getConnection();
+//			PreparedStatement statement = conn.prepareStatement(sql);
+//			ResultSet resultados = statement.executeQuery();
+//
+//			ArrayList<Promocion> promociones = new ArrayList<Promocion>();
+//			while (resultados.next()) {
+//				promociones.add(toPromocion(resultados));
+//			}
+//
+//			return promociones;
+//		} catch (Exception e) {
+//			throw new MissingDataException(e);
+//		}
+//	}
 
 	private Promocion toPromocion(ResultSet resultados) {
 		try {
@@ -176,7 +176,7 @@ public class PromocionDAOImpl implements PromocionDAO {
 		} catch (Exception e) {
 			throw new MissingDataException(e);
 		}
-		
+
 //		ArrayList<Promocion> promociones = new ArrayList<Promocion>();
 //		promociones.addAll(findAllPromosAbsolutas());
 //		promociones.addAll(findAllPromosPorcentuales());
@@ -184,20 +184,23 @@ public class PromocionDAOImpl implements PromocionDAO {
 //		return promociones;
 	}
 
-//BORRAR!!!!!!!!!
-	public int findIdPorNombre(String nombrePromocion) {
+	public Promocion findPromocionPorNombre(String nombrePromocion) {// el nombre de las promociones es UNICO
 		try {
-			String sql = "SELECT id_promocion " + "FROM promociones " + "WHERE nombre LIKE ?";
+			String sql = "SELECT id_promocion, nombre, tipo_promocion, tipo_atraccion, costo, descuento, atraccion_gratis "
+					+ "FROM promociones "
+					+ "JOIN \"tipo atraccion\" ON \"tipo atraccion\".id_tipoatraccion = promociones.fk_tipoatraccion "
+					+ "JOIN \"tipo promocion\" ON \"tipo promocion\".id_tipopromocion = promociones.fk_tipopromocion "
+					+ "WHERE nombre LIKE ? ;";
 			Connection conn = ConnectionProvider.getConnection();
 			PreparedStatement statement = conn.prepareStatement(sql);
 			statement.setString(1, nombrePromocion);
 			ResultSet resultados = statement.executeQuery();
 
-			int id_promocion = 0;
+			Promocion promocion = null;
 			if (resultados.next()) {
-				id_promocion = resultados.getInt("id_promocion");
+				promocion = toPromocion(resultados);
 			}
-			return id_promocion;
+			return promocion;
 		} catch (Exception e) {
 			throw new MissingDataException(e);
 		}

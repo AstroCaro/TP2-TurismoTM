@@ -25,20 +25,17 @@ public class App {
 		Atraccion unaAtraccion = new Atraccion(12,"Rivendell",20,4, 9,"PAISAJE");
 		atraccionDAO.updateCupo(unaAtraccion);
 		
-	//	System.out.println("El id de la atraccion "+ unaAtraccion.getNombre() + " es: "+ atraccionDAO.findIdPorNombre(unaAtraccion.getNombre()));
+		System.out.println(atraccionDAO.findAtraccionPorNombre(unaAtraccion.getNombre()));
 		
 		/*************** APP PromocionDAO ****************/
 		PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
 		String promo = "PromocionAbsoluta 1";
 		System.out.println(promocionDAO.listarAtraccionesIncluidas(promo));
-//		System.out.println(promocionDAO.findAllPromosAbsolutas());
-//		System.out.println(promocionDAO.findAllPromosPorcentuales());
-//		System.out.println(promocionDAO.findAllPromosAxB());
 		System.out.println(promocionDAO.findAll());		
 		
 		ofertas.addAll(promocionDAO.findAll());
 
-		System.out.println("El id de la Promocion AxB1 es: "+ promocionDAO.findIdPorNombre("Promocion AxB1"));
+		System.out.println(promocionDAO.findPromocionPorNombre("Promocion AxB1"));
 		
 		/*************** APP ClienteDAO ****************/
 		ClienteDAO clienteDAO = DAOFactory.getClienteDAO();
