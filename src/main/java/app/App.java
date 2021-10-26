@@ -46,7 +46,7 @@ public class App {
 		
 		System.out.println(clienteDAO.findAll());
 		
-		/*************** APP ClienteDAO ****************/
+		/*************** APP ItinerarioDAO ****************/
 		ItinerarioDAO itinerarioDAO = DAOFactory.getItinerarioDAO();
 		System.out.println(itinerarioDAO.findItinerarioPorCliente(unCliente.getId_cliente()));
 		Promocion unaPromocion = (Promocion) ofertas.get(13);

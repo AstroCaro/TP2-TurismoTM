@@ -27,10 +27,15 @@ public abstract class Promocion extends Oferta {
 	public double getTiempo() {
 		tiempoTotal = 0;
 		for (String a : atracciones) {
-			for (Oferta b : TurismoTM.atracciones) {
-				if (a.equals(b.nombre)) {
-					tiempoTotal += b.tiempo;
+			try {
+				for (Oferta b : Auxiliar.cargarAtracciones()) {
+					if (a.equals(b.nombre)) {
+						tiempoTotal += b.tiempo;
+					}
 				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 		return tiempoTotal;

@@ -13,30 +13,29 @@ import org.junit.Test;
 import jdbc.ConnectionProvider;
 import paqueteTurismoTM.Cliente;
 
-
 public class ClienteDAOImplTest {
 
 	@Before
 	public void setUp() throws SQLException {
 		Connection conexion = ConnectionProvider.getConnection();
 		conexion.setAutoCommit(false);
-		}
+	}
 
 	@After
 	public void tearDown() throws SQLException {
 		Connection conexion = ConnectionProvider.getConnection();
 		conexion.rollback();
 		conexion.setAutoCommit(true);
-		}
-		
+	}
+
 	@Test
 	public void cargaDeClientesTest() {
 		ClienteDAO clienteDAO = DAOFactory.getClienteDAO();
 		ArrayList<Cliente> clientesReales = new ArrayList<Cliente>();
 		clientesReales = clienteDAO.findAll();
 		ArrayList<Cliente> clientesEsperados = new ArrayList<Cliente>();
-		
-		Cliente eowyn = new Cliente(1, "Eowyn", "AVENTURA", 10, 8.0);	
+
+		Cliente eowyn = new Cliente(1, "Eowyn", "AVENTURA", 10, 8.0);
 		Cliente gandalf = new Cliente(2, "Gandalf", "PAISAJE", 100, 5.0);
 		Cliente sam = new Cliente(3, "Sam", "DEGUSTACION", 360, 80.0);
 		Cliente galadriel = new Cliente(4, "Galadriel", "PAISAJE", 120, 5.0);
@@ -56,21 +55,18 @@ public class ClienteDAOImplTest {
 		clientesEsperados.add(aragorn);
 		clientesEsperados.add(arwen);
 		clientesEsperados.add(merry);
-				
 
 		assertEquals(clientesEsperados, clientesReales);
 
-		}
-	
+	}
+
 	@Test
 	public void actualizarCliente() {
 		ClienteDAO clienteDAO = DAOFactory.getClienteDAO();
-		Cliente eowyn = new Cliente(1, "Eowyn", "AVENTURA", 10, 8.0);	
+		Cliente eowyn = new Cliente(1, "Eowyn", "AVENTURA", 8, 5.0);
 		clienteDAO.update(eowyn);
 		Cliente clienteReal = clienteDAO.findClientePorID(eowyn.getId_cliente());
 		assertEquals(eowyn, clienteReal);
-		
-	}
-	}
 
-
+	}
+}

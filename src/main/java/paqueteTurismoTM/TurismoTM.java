@@ -7,32 +7,28 @@ import dao.AtraccionDAO;
 import dao.ClienteDAO;
 import dao.DAOFactory;
 import dao.ItinerarioDAO;
-import dao.PromocionDAO;
 
 public class TurismoTM {
 
-	public static ArrayList<Cliente> clientes = new ArrayList<Cliente>();
-	public static ArrayList<Oferta> ofertas = new ArrayList<Oferta>();
-	public static ArrayList<Oferta> atracciones = new ArrayList<Oferta>();
-	public static ArrayList<Oferta> promociones = new ArrayList<Oferta>();
+	public ArrayList<Cliente> clientes = new ArrayList<Cliente>();
+	public ArrayList<Oferta> ofertas = new ArrayList<Oferta>();
 	
-	public static void main(String[] args) throws IOException {
+	public void main(String[] args) throws IOException{
 
-		ClienteDAO clienteDAO = DAOFactory.getClienteDAO();
-		clientes.addAll(clienteDAO.findAll());
+		Auxiliar aux = new Auxiliar();
+		aux.cargarClientes();
+		aux.cargarAtracciones();
+		aux.cargarPromociones();
 		
-		AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
-		atracciones.addAll(atraccionDAO.findAll());
-		ofertas.addAll(atraccionDAO.findAll());
+		clientes.addAll(aux.clientes);
 		
-		PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
-		promociones.addAll(promocionDAO.findAll());
-		ofertas.addAll(promocionDAO.findAll());
-
+		ofertas.addAll(aux.atracciones);
+		ofertas.addAll(aux.promociones);
+		
 		sugerenciaCliente();
 	}
 
-	public static void sugerenciaCliente() throws IOException {
+	public void sugerenciaCliente() throws IOException {
 
 		mensajeInicial();
 
@@ -75,13 +71,13 @@ public class TurismoTM {
 
 	}
 
-	private static void actualizarCupos(Cliente unCliente, Oferta unaOferta) {
+	private void actualizarCupos(Cliente unCliente, Oferta unaOferta) {
 		ClienteDAO clienteDAO = DAOFactory.getClienteDAO();
 		clienteDAO.update(unCliente);
 		if (unaOferta instanceof Promocion) {
 			Promocion unaPromocion = (Promocion) unaOferta;
 			for (String atraccionComprada : unaPromocion.getAtracciones()) {
-				for (Oferta b : TurismoTM.ofertas) {
+				for (Oferta b : ofertas) {
 					if (atraccionComprada.equals(b.nombre)) {
 						actualizarCupoDeAtraccion(b);
 					}
@@ -94,20 +90,19 @@ public class TurismoTM {
 
 
 
-	private static void actualizarCupoDeAtraccion(Oferta unaOferta) {
+	private void actualizarCupoDeAtraccion(Oferta unaOferta) {
 		AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
 		Atraccion unaAtraccion = (Atraccion) unaOferta;
 		atraccionDAO.updateCupo(unaAtraccion);
 	}
 
-	private static void cargarItinerario(Cliente unCliente) {
+	private void cargarItinerario(Cliente unCliente) {
 		ItinerarioDAO itinerarioDAO = DAOFactory.getItinerarioDAO();
 		unCliente.itinerario.ofertasCompradas = itinerarioDAO.findItinerarioPorCliente(unCliente.id_cliente);
 
 	}
 
-	private static void insertarEnItineario(Cliente unCliente, Oferta unaOferta) {
-
+	private void insertarEnItineario(Cliente unCliente, Oferta unaOferta) {
 		ItinerarioDAO itinerarioDAO = DAOFactory.getItinerarioDAO();
 		if (unaOferta instanceof Promocion) {
 			Promocion unaPromocion = (Promocion) unaOferta;
@@ -119,7 +114,7 @@ public class TurismoTM {
 
 	}
 
-	private static void mensajeItinerario(Cliente unCliente) throws IOException {
+	private void mensajeItinerario(Cliente unCliente) {
 		System.out.println("----------------8<-------------------------------------------");
 		System.out.println("Este será su itinerario: ");
 		System.out.println(unCliente.itinerario);
@@ -129,15 +124,15 @@ public class TurismoTM {
 //		lector.generarTicket(unCliente);
 	}
 
-	private static void mensajeNoPuedeComprarMas() {
+	private void mensajeNoPuedeComprarMas() {
 		System.out.println("¡No puedes comprar más!");
 	}
 
-	private static void mensajeNoHayMasCupos() {
+	private void mensajeNoHayMasCupos() {
 		System.out.println("Atracción sin cupo disponible, lo sentimos.");
 	}
 
-	private static void mensajeQuieresVerOtraOferta() {
+	private void mensajeQuieresVerOtraOferta() {
 		System.out.println("¿Quieres ver otra oferta? S/N");
 
 	}
@@ -146,7 +141,7 @@ public class TurismoTM {
 		System.out.println("Te recomendamos esta oferta\n" + unaOferta + "\n\n¿Quieres comprarla? S/N");
 	}
 
-	private static void mensajeBienvenida(Cliente unCliente) {
+	private void mensajeBienvenida(Cliente unCliente) {
 		System.out.println();
 
 		System.out.println("<<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>>");
@@ -154,7 +149,7 @@ public class TurismoTM {
 		System.out.println(", ¡Te damos la bienvenida a Turismo en la Tierra Media!");
 	}
 
-	private static void mensajeInicial() {
+	private void mensajeInicial() {
 		System.out.println("  .-----------------------------------------------------------------.\n"
 				+ " /  .-.                                                         .-.  \\\n"
 				+ "|  /   \\                                                       /   \\  |\n"
@@ -169,36 +164,8 @@ public class TurismoTM {
 
 	}
 
-	private static void mensajeFinDelPrograma() {
+	private void mensajeFinDelPrograma() {
 		System.out.println("¡Fin del programa!");
-		System.out.println("                  .\n" + "                 8\n" + "                8\n"
-				+ "               8'\n" + "              88\n" + "              88\n" + "              88\n"
-				+ "              88\n"
-				+ "             ,8P                                                                                                                               ...\n"
-				+ "             d8                                                                                                                              .'.' :\n"
-				+ "       .     88                            .                                                     :                 .                        .'  '''\n"
-				+ "     '.:.'   88                          '.:.'                                                   '               '.:.'                     .'\n"
-				+ "             88                                                                        ,d88888888b.       .8                              .'                d@@b.\n"
-				+ "            ,8P                                                                        8'        `Y88888888P                             .'                d@P'\n"
-				+ "   ,8888b   88                                                 ,d               ,d                                                      .'                d@P'\n"
-				+ "  ,88   \"   88,od88b.     ,d88b.  ,d88b.  ,d88b.,od88888888888888,od88888888888888.od88b.    ,d88b.  ,d88b.od88b.    ,d88b.  ,od8888888888888bo.          d@P'\n"
-				+ " ,88       ,88    `88b  ,d8  `8b,d8  `8b,d8  `8b  ,8P'  ,8P'  ,88  ,8P'  ,8P'  ,88     88  ,d8  `8b,d8  `8b    88  ,d8  `8b,'      ,dP'                  d@P'\n"
-				+ " :88      ,d88     888,d8'    888'    888'    88 ,88   ,88   d888 ,88   ,88   d888     88,d8'    888'    88    88,d8'    88      ,dP'                    d@P\n"
-				+ " `88     ,d888     888'       88      88     ,8P 88   d88   dP'88 88   d88   dP'88     88'       88      88    88'       88     ,dP'                   d@@P' d@@b.\n"
-				+ "  `88  ,d8P 88    ,888    ,  88'  ,  88'    ,8P  `88 dP`88 dP' 88 `88 dP`88 dP' 88     88        88      88    88    ,  88'    ,dP'      .        .d@@@@P'  d@P'\n"
-				+ "   `Y8888P',88  ,d8P'     `Y88    `Y88     ,8P    `Y8P' `Y8P' ,88  `Y8P' `Y8P' ,88    ,88oooooooo88oooooo88P' ,88    `Y88      88         'b               d@P'\n"
-				+ "           88'                            d8,d88b.            88'              88'    88'                     88'              88         ,8'   .d@@@@@b d@P'\n"
-				+ "           88                            d8d8  `8b            88               88     88                      88               `Yb.     ,dP'          Y@@@P\n"
-				+ "           88                           88'    ,88            88               88     88                      88                 `Y88888P'\n"
-				+ "           88                                 ,88'            88               88     88                      88\n"
-				+ "          ,8P                                ,8P'            ,8P              ,8P    ,8P                     ,8P\n"
-				+ "          d8                                ,d8'             d8               d8     d8                      d8\n"
-				+ "          88                               ,d8'              88               88     88                      88\n"
-				+ "          88                              ,d8'               88               88     88                      88\n"
-				+ "         ,8                              ,8'                ,8               ,8     ,8                      ,8\n"
-				+ "         8                              ,8'                 8                8      8                       8\n"
-				+ "        8                              ,8'                 8                8      8                       8\n"
-				+ "       \"                               \"                  \"                \"      \"                       \"");
 	}
 
 }

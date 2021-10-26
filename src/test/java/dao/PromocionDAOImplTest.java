@@ -30,7 +30,23 @@ public class PromocionDAOImplTest {
 		conexion.rollback();
 		conexion.setAutoCommit(true);
 	}
-	
+
+	@Test
+	public void listaAtraccionesIncluidasTest() {
+		PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
+		ArrayList<String> atraccionesReales = new ArrayList<String>();
+		String nombrePromo = "PromocionAxB 1";
+		atraccionesReales = promocionDAO.listarAtraccionesIncluidas(nombrePromo);
+
+		ArrayList<String> atraccionesEsperadas = new ArrayList<String>();
+		atraccionesEsperadas.add("Abismo de Helm");
+		atraccionesEsperadas.add("Erebor");
+		atraccionesEsperadas.add("Minas Tirith");
+
+		assertEquals(atraccionesEsperadas, atraccionesReales);
+
+	}
+
 	@Test
 	public void cargaDePromocionesTest() {
 		PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
@@ -43,7 +59,7 @@ public class PromocionDAOImplTest {
 		ArrayList<String> atraccionesIncluidas4 = new ArrayList<String>();
 		ArrayList<String> atraccionesIncluidas5 = new ArrayList<String>();
 		ArrayList<String> atraccionesIncluidas6 = new ArrayList<String>();
-		
+
 		atraccionesIncluidas1.add("La Comarca");
 		atraccionesIncluidas1.add("Lothlorien");
 		atraccionesIncluidas2.add("Erebor");
@@ -59,11 +75,15 @@ public class PromocionDAOImplTest {
 		atraccionesIncluidas6.add("Bosque Negro");
 		atraccionesIncluidas6.add("Mordor");
 
-		Promocion promocionAbsoluta1 = new PromocionAbsoluta(1, "PromocionAbsoluta 1","DEGUSTACION", 36, atraccionesIncluidas1);
-		Promocion promocionAbsoluta2 = new PromocionAbsoluta(2, "PromocionAbsoluta 2", "PAISAJE", 15, atraccionesIncluidas2);
-		Promocion promocionPorcentual1 = new PromocionPorcentual(3, "PromocionPorcentual 1", "AVENTURA", 0.2, atraccionesIncluidas3);
-		Promocion promocionPorcentual2 = new PromocionPorcentual(4, "PromocionPorcentual 2", "AVENTURA", 0.3, atraccionesIncluidas4);
-		Promocion promocionAxB1= new PromocionAxB(5, "PromocionAxB 1", "PAISAJE", atraccionesIncluidas5);
+		Promocion promocionAbsoluta1 = new PromocionAbsoluta(1, "PromocionAbsoluta 1", "DEGUSTACION", 36,
+				atraccionesIncluidas1);
+		Promocion promocionAbsoluta2 = new PromocionAbsoluta(2, "PromocionAbsoluta 2", "PAISAJE", 15,
+				atraccionesIncluidas2);
+		Promocion promocionPorcentual1 = new PromocionPorcentual(3, "PromocionPorcentual 1", "AVENTURA", 0.2,
+				atraccionesIncluidas3);
+		Promocion promocionPorcentual2 = new PromocionPorcentual(4, "PromocionPorcentual 2", "AVENTURA", 0.3,
+				atraccionesIncluidas4);
+		Promocion promocionAxB1 = new PromocionAxB(5, "PromocionAxB 1", "PAISAJE", atraccionesIncluidas5);
 		Promocion promocionAxB2 = new PromocionAxB(6, "PromocionAxB 2", "AVENTURA", atraccionesIncluidas6);
 
 		promocionesEsperadas.add(promocionAbsoluta1);
@@ -76,4 +96,5 @@ public class PromocionDAOImplTest {
 		assertEquals(promocionesEsperadas, promocionesReales);
 
 	}
+
 }
