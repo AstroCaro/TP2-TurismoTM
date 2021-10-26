@@ -67,6 +67,5 @@ public class ClienteDAOImplTest {
 		clienteDAO.update(eowyn);
 		Cliente clienteReal = clienteDAO.findClientePorID(eowyn.getId_cliente());
 		assertEquals(eowyn, clienteReal);
-
 	}
 }
