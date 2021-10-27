@@ -23,7 +23,6 @@ public class ItinerarioDAOImplTest {
 	public void setUp() throws SQLException {
 		Connection conexion = ConnectionProvider.getConnection();
 		conexion.setAutoCommit(false);
-
 	}
 
 	@After
