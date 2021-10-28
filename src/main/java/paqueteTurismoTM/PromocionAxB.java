@@ -3,6 +3,9 @@ package paqueteTurismoTM;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import dao.AtraccionDAO;
+import dao.DAOFactory;
+
 public class PromocionAxB extends Promocion {
 
 	public String atraccionGratis;
@@ -12,12 +15,14 @@ public class PromocionAxB extends Promocion {
 		this.atraccionGratis = atracciones.get(atracciones.size()-1);
 	}
 
-
 	@Override
 	public int getCosto() {
 		costo = 0;
-		for (int i = 0; i < atracciones.size()-1; i++) {			
-			for (Oferta b : TurismoTM.atracciones) {
+		for (int i = 0; i < atracciones.size()-1; i++) {
+			ArrayList<Oferta> lista_atracciones = new ArrayList<Oferta>();
+			AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
+			lista_atracciones.addAll(atraccionDAO.findAll());
+			for (Oferta b : lista_atracciones) {
 				if (atracciones.get(i).equals(b.nombre)) {
 					costo += b.getCosto();
 				}
@@ -31,7 +36,10 @@ public class PromocionAxB extends Promocion {
 	public int getCuposDisponibles() {
 		int cupoDisponible = 9999;
 		for (String a : atracciones) {
-			for (Oferta b : TurismoTM.atracciones) {
+			ArrayList<Oferta> lista_atracciones = new ArrayList<Oferta>();
+			AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
+			lista_atracciones.addAll(atraccionDAO.findAll());
+			for (Oferta b : lista_atracciones) {
 				if (a.equals(b.nombre)) {
 					if (b.getCuposDisponibles() < cupoDisponible) {
 						cupoDisponible = b.getCuposDisponibles();

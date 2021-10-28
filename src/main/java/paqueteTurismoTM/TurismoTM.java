@@ -7,23 +7,33 @@ import dao.AtraccionDAO;
 import dao.ClienteDAO;
 import dao.DAOFactory;
 import dao.ItinerarioDAO;
+import dao.PromocionDAO;
 
 public class TurismoTM {
 
 	public ArrayList<Cliente> clientes = new ArrayList<Cliente>();
-	public ArrayList<Oferta> ofertas = new ArrayList<Oferta>();
+	public static ArrayList<Oferta> ofertas = new ArrayList<Oferta>();
+	public static ArrayList<Oferta> promociones = new ArrayList<Oferta>();
+	public static ArrayList<Oferta> atracciones = new ArrayList<Oferta>();
 	
 	public void main(String[] args) throws IOException{
 
-		Auxiliar aux = new Auxiliar();
+		ClienteDAO clienteDAO = DAOFactory.getClienteDAO();
+		AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
+		PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
+		
+		clientes.addAll(clienteDAO.findAll());
+		atracciones.addAll(atraccionDAO.findAll());
+		promociones.addAll(promocionDAO.findAll());
+		
+		/*Auxiliar aux = new Auxiliar();
 		aux.cargarClientes();
 		aux.cargarAtracciones();
 		aux.cargarPromociones();
 		
-		clientes.addAll(aux.clientes);
-		
+		clientes.addAll(aux.clientes);		
 		ofertas.addAll(aux.atracciones);
-		ofertas.addAll(aux.promociones);
+		ofertas.addAll(aux.promociones);*/
 		
 		sugerenciaCliente();
 	}
