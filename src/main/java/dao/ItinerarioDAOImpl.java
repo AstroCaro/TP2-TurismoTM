@@ -86,7 +86,7 @@ public class ItinerarioDAOImpl implements ItinerarioDAO {
 			throw new MissingDataException(e);
 		}
 	}
-//si queda tiempo
+//si queda tiempo..
 	@Override
 	public ArrayList<Itinerario> findAll() {
 		// TODO Auto-generated method stub

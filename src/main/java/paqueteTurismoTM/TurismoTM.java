@@ -19,10 +19,10 @@ public class TurismoTM {
 
 		ClienteDAO clienteDAO = DAOFactory.getClienteDAO();
 		clientes.addAll(clienteDAO.findAll());
-
 		AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
 		atracciones.addAll(atraccionDAO.findAll());
 		ofertas.addAll(atraccionDAO.findAll());
+
 		
 		PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
 		ofertas.addAll(promocionDAO.findAll());

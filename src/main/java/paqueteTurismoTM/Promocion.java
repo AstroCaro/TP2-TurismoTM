@@ -38,7 +38,8 @@ public abstract class Promocion extends Oferta {
 						tiempoTotal += b.tiempo;
 					}
 			}
-		}
+			}
+		
 		return tiempoTotal;
 	}
 	
