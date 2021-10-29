@@ -3,6 +3,9 @@ package paqueteTurismoTM;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import dao.AtraccionDAO;
+import dao.DAOFactory;
+
 public abstract class Promocion extends Oferta {
 	protected int id_promocion;
 	public ArrayList<String> atracciones;
@@ -27,10 +30,13 @@ public abstract class Promocion extends Oferta {
 	public double getTiempo() {
 		tiempoTotal = 0;
 		for (String a : atracciones) {
-			for (Oferta b : TurismoTM.atracciones) {
-				if (a.equals(b.nombre)) {
-					tiempoTotal += b.tiempo;
-				}
+				ArrayList<Oferta> lista_atracciones = new ArrayList<Oferta>();
+				AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
+				lista_atracciones.addAll(atraccionDAO.findAll());
+				for (Oferta b : lista_atracciones) {
+					if (a.equals(b.nombre)) {
+						tiempoTotal += b.tiempo;
+					}
 			}
 		}
 		return tiempoTotal;

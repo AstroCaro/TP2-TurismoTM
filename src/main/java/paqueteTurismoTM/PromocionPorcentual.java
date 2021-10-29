@@ -3,6 +3,9 @@ package paqueteTurismoTM;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import dao.AtraccionDAO;
+import dao.DAOFactory;
+
 public class PromocionPorcentual extends Promocion {
 
 	private double descuento; // decimal
@@ -17,7 +20,10 @@ public class PromocionPorcentual extends Promocion {
 	public int getCosto() {
 	costo = 0;
 		for (String a : atracciones) {
-			for (Oferta b : TurismoTM.atracciones) {
+			ArrayList<Oferta> lista_atracciones = new ArrayList<Oferta>();
+			AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
+			lista_atracciones.addAll(atraccionDAO.findAll());
+			for (Oferta b : lista_atracciones) {
 				if (a.equals(b.nombre)) {
 					costo += b.getCosto();
 				}
