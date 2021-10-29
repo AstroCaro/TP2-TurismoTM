@@ -13,6 +13,7 @@ public class TurismoTM {
 
 	public static ArrayList<Cliente> clientes = new ArrayList<Cliente>();
 	public static ArrayList<Oferta> ofertas = new ArrayList<Oferta>();
+
 	public static ArrayList<Oferta> atracciones = new ArrayList<Oferta>();
 	
 	public static void main(String[] args) throws IOException{
@@ -23,6 +24,7 @@ public class TurismoTM {
 		AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
 		atracciones.addAll(atraccionDAO.findAll());
 		ofertas.addAll(atraccionDAO.findAll());
+
 		
 		PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
 		ofertas.addAll(promocionDAO.findAll());
