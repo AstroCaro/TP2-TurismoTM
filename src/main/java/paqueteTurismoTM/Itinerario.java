@@ -3,27 +3,23 @@ package paqueteTurismoTM;
 import java.util.ArrayList;
 
 public class Itinerario {
-	
 
 	public ArrayList<Oferta> ofertasCompradas;
 	protected int montoTotal;
 	protected double horasTotales;
-	
+
 	public Itinerario() {
 		ofertasCompradas = new ArrayList<Oferta>();
 	}
+
 	public Itinerario(ArrayList<Oferta> ofertasCompradas, int montoTotal, double horasTotales) {
-		super();
 		this.ofertasCompradas = ofertasCompradas;
 		this.montoTotal = montoTotal;
 		this.horasTotales = horasTotales;
-		
 	}
-	
-	
-	
+
 	public int getMontoTotal() {
-		montoTotal=0;
+		montoTotal = 0;
 		for (Oferta oferta : ofertasCompradas) {
 			montoTotal += oferta.getCosto();
 		}
@@ -31,7 +27,7 @@ public class Itinerario {
 	}
 
 	public double getHorasTotales() {
-		horasTotales=0;
+		horasTotales = 0;
 		for (Oferta oferta : ofertasCompradas) {
 			horasTotales += oferta.getTiempo();
 		}
@@ -44,7 +40,7 @@ public class Itinerario {
 
 	@Override
 	public String toString() {
-		return "Ofertas Compradas: " + "\n"+ofertasCompradas + "\nMonto Total: " + getMontoTotal() + ", Horas Totales: "
-				+ getHorasTotales();
+		return "Ofertas Compradas: " + "\n" + ofertasCompradas + "\nMonto Total: " + getMontoTotal()
+				+ ", Horas Totales: " + getHorasTotales();
 	}
 }

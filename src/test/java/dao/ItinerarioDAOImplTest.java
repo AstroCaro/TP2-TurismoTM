@@ -61,6 +61,7 @@ public class ItinerarioDAOImplTest {
 	}
 
 	@SuppressWarnings("static-access")
+	@Test
 	public void insertarPromocionYFindItinerarioPorClienteTest() {
 		ItinerarioDAO itinerarioDAO = DAOFactory.getItinerarioDAO();
 		TurismoTM turismo = new TurismoTM();
@@ -74,10 +75,10 @@ public class ItinerarioDAOImplTest {
 
 		ArrayList<Oferta> itinerarioReal = new ArrayList<Oferta>();
 
-		ArrayList<String> atraccionesIncluidas1 = new ArrayList<String>();
+		ArrayList<Atraccion> atraccionesIncluidas1 = new ArrayList<Atraccion>();
 
-		atraccionesIncluidas1.add("La Comarca");
-		atraccionesIncluidas1.add("Lothlorien");
+		atraccionesIncluidas1.add(atraccionDAO.findAtraccionPorNombre("La Comarca"));
+		atraccionesIncluidas1.add(atraccionDAO.findAtraccionPorNombre("Lothlorien"));
 		Promocion unaPromocion = new PromocionAbsoluta(1, "PromocionAbsoluta 1", "DEGUSTACION", 36,
 				atraccionesIncluidas1);
 
@@ -85,11 +86,11 @@ public class ItinerarioDAOImplTest {
 
 		itinerarioReal = itinerarioDAO.findItinerarioPorCliente(2);
 
-		System.out.println(itinerarioDAO.findItinerarioPorCliente(2));
+		//System.out.println(itinerarioDAO.findItinerarioPorCliente(2));
 
 		ArrayList<Oferta> itinerarioEsperado = new ArrayList<Oferta>();
 		itinerarioEsperado.add(unaPromocion);
-		System.out.println(itinerarioEsperado);
+		//System.out.println(itinerarioEsperado);
 
 		assertEquals(itinerarioEsperado, itinerarioReal);
 

@@ -6,15 +6,18 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import jdbc.ConnectionProvider;
+import paqueteTurismoTM.Atraccion;
+import paqueteTurismoTM.Oferta;
 import paqueteTurismoTM.Promocion;
 import paqueteTurismoTM.PromocionAbsoluta;
 import paqueteTurismoTM.PromocionAxB;
 import paqueteTurismoTM.PromocionPorcentual;
+import paqueteTurismoTM.TurismoTM;
 
 public class PromocionDAOImpl implements PromocionDAO {
 
 	@Override
-	public ArrayList<String> listarAtraccionesIncluidas(String nombrePromo) {
+	public ArrayList<Atraccion> listarAtraccionesIncluidas(String nombrePromo) {
 		try {
 			String sql = "SELECT atracciones.nombre " + "FROM \"promocion-atraccion\" "
 					+ "JOIN promociones ON \"promocion-atraccion\".fk_promocion = promociones.id_promocion "
@@ -24,9 +27,19 @@ public class PromocionDAOImpl implements PromocionDAO {
 			PreparedStatement statement = conn.prepareStatement(sql);
 			statement.setString(1, nombrePromo);
 			ResultSet resultados = statement.executeQuery();
-			ArrayList<String> atraccionesIncluidas = new ArrayList<>();
+			ArrayList<String> nombresAtraccionesIncluidas = new ArrayList<String>();
+			ArrayList<Atraccion> atraccionesIncluidas = new ArrayList<Atraccion>();
 			while (resultados.next()) {
-				atraccionesIncluidas.add(resultados.getString("nombre"));
+				nombresAtraccionesIncluidas.add(resultados.getString("nombre"));
+			}
+			for (String nombre : nombresAtraccionesIncluidas) {
+				for (Oferta unaAtraccion : TurismoTM.ofertas) {
+					
+					if (nombre.equals(unaAtraccion.getNombre())) {
+						Atraccion atraccion = (Atraccion) unaAtraccion;
+						atraccionesIncluidas.add(atraccion);
+					}
+				}
 			}
 			return atraccionesIncluidas;
 		} catch (Exception e) {
@@ -103,7 +116,7 @@ public class PromocionDAOImpl implements PromocionDAO {
 	private Promocion toPromocion(ResultSet resultados) {
 		try {
 			Promocion unaPromocion = null;
-			ArrayList<String> arrayDeAtracciones = listarAtraccionesIncluidas(resultados.getString("nombre"));
+			ArrayList<Atraccion> arrayDeAtracciones = listarAtraccionesIncluidas(resultados.getString("nombre"));
 			String tipoPromocion = resultados.getString("tipo_promocion");
 			switch (tipoPromocion) {
 			case "ABSOLUTA":

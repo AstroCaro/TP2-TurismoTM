@@ -3,69 +3,59 @@ package paqueteTurismoTM;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import dao.AtraccionDAO;
-import dao.DAOFactory;
-
 public abstract class Promocion extends Oferta {
 	protected int id_promocion;
-	public ArrayList<String> atracciones;
+	public ArrayList<Atraccion> atracciones;
 	protected int costo;
 	protected double tiempoTotal;
 	protected int cuposDisponibles;
-	
-	public Promocion(int id_promocion, String nombre, String tipoAtraccion, ArrayList<String> atracciones) {
+
+	public Promocion(int id_promocion, String nombre, String tipoAtraccion, ArrayList<Atraccion> atracciones) {
 		super(nombre, tipoAtraccion);
-		this.atracciones = new ArrayList<String>(atracciones);
+		this.atracciones = atracciones;
 		this.id_promocion = id_promocion;
 	}
 
 	public String getNombre() {
 		return nombre;
 	}
-	
+
 	public int getId_promocion() {
 		return id_promocion;
 	}
 
 	public double getTiempo() {
 		tiempoTotal = 0;
-		for (String a : atracciones) {
-				ArrayList<Oferta> lista_atracciones = new ArrayList<Oferta>();
-				AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
-				lista_atracciones.addAll(atraccionDAO.findAll());
-				for (Oferta b : lista_atracciones) {
-					if (a.equals(b.nombre)) {
-						tiempoTotal += b.tiempo;
-					}
-			}
-			}
-		
+		for (Atraccion unaAtraccion : atracciones) {
+			tiempoTotal += unaAtraccion.getTiempo();
+		}
 		return tiempoTotal;
 	}
-	
-	
 
-	public ArrayList<String> getAtracciones() {
+	public ArrayList<Atraccion> getAtracciones() {
 		return this.atracciones;
 	}
 
-	public void venderCupo() {
-		for (String a : atracciones) {
-			for (Oferta b : TurismoTM.ofertas)
-				if (a.equals(b.nombre))
-					b.venderCupo();
+	public ArrayList<String> getNombreAtracciones() {
+		ArrayList<String> nombreAtracciones = new ArrayList<String>();
+		for (Atraccion unaAtraccion : atracciones) {
+			nombreAtracciones.add(unaAtraccion.getNombre());
+		}
+		return nombreAtracciones;
+	}
+
+	public void venderCupo() {// se puede meter un booleano que vea que hay una promo que se quedo sin cupo
+		for (Atraccion unaAtraccion : atracciones) {
+			if (unaAtraccion.getCuposDisponibles() > 0)
+				unaAtraccion.venderCupo();
 		}
 	}
 
 	public int getCuposDisponibles() {
 		int cupoDisponible = 9999;
-		for (String a : atracciones) {
-			for (Oferta b : TurismoTM.atracciones) {
-				if (a.equals(b.nombre)) {
-					if (b.getCuposDisponibles() < cupoDisponible) {
-						cupoDisponible = b.getCuposDisponibles();
-					}
-				}
+		for (Atraccion unaAtraccion : atracciones) {
+			if (unaAtraccion.getCuposDisponibles() < cupoDisponible) {
+				cupoDisponible = unaAtraccion.getCuposDisponibles();
 			}
 		}
 		return cupoDisponible;

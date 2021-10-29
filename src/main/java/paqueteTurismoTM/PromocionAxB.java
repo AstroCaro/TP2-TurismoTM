@@ -3,61 +3,52 @@ package paqueteTurismoTM;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import dao.AtraccionDAO;
-import dao.DAOFactory;
-
 public class PromocionAxB extends Promocion {
+	// supondremos que una promoción AxB solo puede tener una atracción gratis, y se
+	// corresponde con el último espacio del ArrayList
+	public Atraccion atraccionGratis;
 
-	public String atraccionGratis;
-	
-	public PromocionAxB(int id_promocion, String nombre, String tipoAtraccion, ArrayList<String> atracciones) {
-		super(id_promocion,nombre, tipoAtraccion, atracciones);
-		this.atraccionGratis = atracciones.get(atracciones.size()-1);
+	public PromocionAxB(int id_promocion, String nombre, String tipoAtraccion, ArrayList<Atraccion> atracciones) {
+		super(id_promocion, nombre, tipoAtraccion, atracciones);
+		this.atraccionGratis = atracciones.get(atracciones.size() - 1);
 	}
 
 	@Override
 	public int getCosto() {
 		costo = 0;
-		for (int i = 0; i < atracciones.size()-1; i++) {
-			ArrayList<Oferta> lista_atracciones = new ArrayList<Oferta>();
-			AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
-			lista_atracciones.addAll(atraccionDAO.findAll());
-			for (Oferta b : lista_atracciones) {
-				if (atracciones.get(i).equals(b.nombre)) {
-					costo += b.getCosto();
-				}
-			}
+		for (int i = 0; i < atracciones.size() - 1; i++) {
+			costo += atracciones.get(i).getCosto();
 		}
-		return (int) costo;
+		return costo;
 	}
 
-	
-	@Override
-	public int getCuposDisponibles() {
-		int cupoDisponible = 9999;
-		for (String a : atracciones) {
-			ArrayList<Oferta> lista_atracciones = new ArrayList<Oferta>();
-			AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
-			lista_atracciones.addAll(atraccionDAO.findAll());
-			for (Oferta b : lista_atracciones) {
-				if (a.equals(b.nombre)) {
-					if (b.getCuposDisponibles() < cupoDisponible) {
-						cupoDisponible = b.getCuposDisponibles();
-					}
-				}
-			}
-		}
-		return cupoDisponible;
-	}
+	//Se va???
+
+//	@Override
+//	public int getCuposDisponibles() {
+//		int cupoDisponible = 9999;
+//		for (String a : atracciones) {
+//			ArrayList<Oferta> lista_atracciones = new ArrayList<Oferta>();
+//			AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
+//			lista_atracciones.addAll(atraccionDAO.findAll());
+//			for (Oferta b : lista_atracciones) {
+//				if (a.equals(b.nombre)) {
+//					if (b.getCuposDisponibles() < cupoDisponible) {
+//						cupoDisponible = b.getCuposDisponibles();
+//					}
+//				}
+//			}
+//		}
+//		return cupoDisponible;
+//	}
 
 	@Override
 	public String toString() {
 		return "" + this.nombre + " contiene las siguientes atracciones de tipo" + "[" + tipoAtraccion + "]:" + "\n\t"
-				+ this.atracciones + "\n\tSu precio total es de " + this.getCosto() + " monedas de oro."
-				+ "\n\t Siendo la atracción gratis:\n\t" + this.atraccionGratis + "\n\tTiempo Total es de "
+				+ this.getNombreAtracciones() + "\n\tSu precio total es de " + this.getCosto() + " monedas de oro."
+				+ "\n\t Siendo la atracción gratis:\n\t" + this.atraccionGratis.getNombre() + "\n\tTiempo Total es de "
 				+ this.getTiempo() + "hs.\n";
 	}
-
 
 	@Override
 	public int hashCode() {
@@ -66,7 +57,6 @@ public class PromocionAxB extends Promocion {
 		result = prime * result + Objects.hash(atraccionGratis);
 		return result;
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -79,6 +69,5 @@ public class PromocionAxB extends Promocion {
 		PromocionAxB other = (PromocionAxB) obj;
 		return Objects.equals(atraccionGratis, other.atraccionGratis);
 	}
-	
-	
+
 }

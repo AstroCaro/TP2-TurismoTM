@@ -130,16 +130,16 @@ public class OperadorTest {
 	@Test
 	public void filtroDeOfertasSinCupoTest(){
 		TurismoTM turismo = new TurismoTM();
-		ArrayList<String> atraccionesIncluidas1 = new ArrayList<String>();
-		ArrayList<String> atraccionesIncluidas2 = new ArrayList<String>();
+		ArrayList<Atraccion> atraccionesIncluidas1 = new ArrayList<Atraccion>();
+		ArrayList<Atraccion> atraccionesIncluidas2 = new ArrayList<Atraccion>();
 		Atraccion laComarca = new Atraccion(6, "La Comarca", 3, 6.5, 0, "DEGUSTACION"); //sin cupo
 		Atraccion lothlorien = new Atraccion(7, "Lothlorien", 35, 1.0, 30, "DEGUSTACION");
 		Atraccion erebor = new Atraccion(10, "Erebor", 12, 3.0, 32, "PAISAJE");
 		Atraccion minasTirith = new Atraccion(11, "Minas Tirith", 5, 2.5, 25, "PAISAJE");
-		atraccionesIncluidas1.add("La Comarca");
-		atraccionesIncluidas1.add("Lothlorien");
-		atraccionesIncluidas2.add("Erebor");
-		atraccionesIncluidas2.add("Minas Tirith");
+		atraccionesIncluidas1.add(laComarca);
+		atraccionesIncluidas1.add(lothlorien);
+		atraccionesIncluidas2.add(erebor);
+		atraccionesIncluidas2.add(minasTirith);
 		Promocion promocionAbsoluta1 = new PromocionAbsoluta(1, "PromocionAbsoluta 1", "DEGUSTACION", 36,
 				atraccionesIncluidas1);//sin cupo
 		Promocion promocionAbsoluta2 = new PromocionAbsoluta(2, "PromocionAbsoluta 2", "PAISAJE", 15,

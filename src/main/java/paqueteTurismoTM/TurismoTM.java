@@ -13,17 +13,16 @@ public class TurismoTM {
 
 	public static ArrayList<Cliente> clientes = new ArrayList<Cliente>();
 	public static ArrayList<Oferta> ofertas = new ArrayList<Oferta>();
-	public static ArrayList<Oferta> atracciones = new ArrayList<Oferta>();
-	
-	public static void main(String[] args) throws IOException{
+	public static ArrayList<Atraccion> atracciones = new ArrayList<Atraccion>();
+
+	public static void main(String[] args) throws IOException {
 
 		ClienteDAO clienteDAO = DAOFactory.getClienteDAO();
 		clientes.addAll(clienteDAO.findAll());
 		AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
 		atracciones.addAll(atraccionDAO.findAll());
-		ofertas.addAll(atraccionDAO.findAll());
+		ofertas.addAll(atracciones);
 
-		
 		PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
 		ofertas.addAll(promocionDAO.findAll());
 
@@ -51,7 +50,7 @@ public class TurismoTM {
 							Ofertable.quitarOfertasCompradas();
 							unaOferta.venderCupo();
 							insertarEnItineario(unCliente, unaOferta);
-							actualizarCupos(unCliente,unaOferta);
+							actualizarCupos(unCliente, unaOferta);
 							mensajeQuieresVerOtraOferta();
 							seguirOfreciendo = unCliente.responderPregunta();
 						} else {
@@ -78,19 +77,14 @@ public class TurismoTM {
 		clienteDAO.update(unCliente);
 		if (unaOferta instanceof Promocion) {
 			Promocion unaPromocion = (Promocion) unaOferta;
-			for (String atraccionComprada : unaPromocion.getAtracciones()) {
-				for (Oferta b : TurismoTM.ofertas) {
-					if (atraccionComprada.equals(b.nombre)) {
-						actualizarCupoDeAtraccion(b);
-					}
-				}
+			for (Atraccion atraccionComprada : unaPromocion.getAtracciones()) {
+				actualizarCupoDeAtraccion(atraccionComprada);
 			}
-			} else if (unaOferta instanceof Atraccion) {
-				actualizarCupoDeAtraccion(unaOferta);
-			}
+
+		} else if (unaOferta instanceof Atraccion) {
+			actualizarCupoDeAtraccion(unaOferta);
 		}
-
-
+	}
 
 	private static void actualizarCupoDeAtraccion(Oferta unaOferta) {
 		AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();

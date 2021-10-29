@@ -22,7 +22,7 @@ CREATE TABLE "atracciones" (
 	"nombre"	TEXT NOT NULL UNIQUE,
 	"costo"	INTEGER NOT NULL,
 	"tiempo"	REAL NOT NULL,
-	"cupos_disponibles"	INTEGER NOT NULL,
+	"cupos_disponibles"	INTEGER NOT NULL CHECK("cupos_disponibles">=0),
 	"fk_tipoatraccion"	INTEGER NOT NULL,
 	FOREIGN KEY("fk_tipoatraccion") REFERENCES "tipo atraccion"("id_tipoatraccion"),
 	PRIMARY KEY("id_atraccion" AUTOINCREMENT)

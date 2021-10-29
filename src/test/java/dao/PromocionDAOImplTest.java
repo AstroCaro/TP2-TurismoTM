@@ -11,40 +11,39 @@ import org.junit.Before;
 import org.junit.Test;
 
 import jdbc.ConnectionProvider;
+import paqueteTurismoTM.Atraccion;
+import paqueteTurismoTM.Oferta;
+import paqueteTurismoTM.Ofertable;
 import paqueteTurismoTM.Promocion;
 import paqueteTurismoTM.PromocionAbsoluta;
 import paqueteTurismoTM.PromocionAxB;
 import paqueteTurismoTM.PromocionPorcentual;
+import paqueteTurismoTM.TurismoTM;
 
 public class PromocionDAOImplTest {
+
+	TurismoTM turismo;
 
 	@Before
 	public void setUp() throws SQLException {
 		Connection conexion = ConnectionProvider.getConnection();
 		conexion.setAutoCommit(false);
+
+		turismo = new TurismoTM();
+
+		AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
+		turismo.ofertas.addAll(atraccionDAO.findAll());
+		PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
+		turismo.ofertas.addAll(promocionDAO.findAll());
+
 	}
 
 	@After
 	public void tearDown() throws SQLException {
+		turismo.ofertas.clear();
 		Connection conexion = ConnectionProvider.getConnection();
 		conexion.rollback();
 		conexion.setAutoCommit(true);
-	}
-
-	@Test
-	public void listaAtraccionesIncluidasTest() {
-		PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
-		ArrayList<String> atraccionesReales = new ArrayList<String>();
-		String nombrePromo = "PromocionAxB 1";
-		atraccionesReales = promocionDAO.listarAtraccionesIncluidas(nombrePromo);
-
-		ArrayList<String> atraccionesEsperadas = new ArrayList<String>();
-		atraccionesEsperadas.add("Abismo de Helm");
-		atraccionesEsperadas.add("Erebor");
-		atraccionesEsperadas.add("Minas Tirith");
-
-		assertEquals(atraccionesEsperadas, atraccionesReales);
-
 	}
 
 	@Test
@@ -53,27 +52,37 @@ public class PromocionDAOImplTest {
 		ArrayList<Promocion> promocionesReales = new ArrayList<Promocion>();
 		promocionesReales = promocionDAO.findAll();
 		ArrayList<Promocion> promocionesEsperadas = new ArrayList<Promocion>();
-		ArrayList<String> atraccionesIncluidas1 = new ArrayList<String>();
-		ArrayList<String> atraccionesIncluidas2 = new ArrayList<String>();
-		ArrayList<String> atraccionesIncluidas3 = new ArrayList<String>();
-		ArrayList<String> atraccionesIncluidas4 = new ArrayList<String>();
-		ArrayList<String> atraccionesIncluidas5 = new ArrayList<String>();
-		ArrayList<String> atraccionesIncluidas6 = new ArrayList<String>();
+		ArrayList<Atraccion> atraccionesIncluidas1 = new ArrayList<Atraccion>();
+		ArrayList<Atraccion> atraccionesIncluidas2 = new ArrayList<Atraccion>();
+		ArrayList<Atraccion> atraccionesIncluidas3 = new ArrayList<Atraccion>();
+		ArrayList<Atraccion> atraccionesIncluidas4 = new ArrayList<Atraccion>();
+		ArrayList<Atraccion> atraccionesIncluidas5 = new ArrayList<Atraccion>();
+		ArrayList<Atraccion> atraccionesIncluidas6 = new ArrayList<Atraccion>();
 
-		atraccionesIncluidas1.add("La Comarca");
-		atraccionesIncluidas1.add("Lothlorien");
-		atraccionesIncluidas2.add("Erebor");
-		atraccionesIncluidas2.add("Minas Tirith");
-		atraccionesIncluidas3.add("Bosque Negro");
-		atraccionesIncluidas3.add("Mordor");
-		atraccionesIncluidas4.add("Moria");
-		atraccionesIncluidas4.add("Gondor");
-		atraccionesIncluidas5.add("Abismo de Helm");
-		atraccionesIncluidas5.add("Erebor");
-		atraccionesIncluidas5.add("Minas Tirith");
-		atraccionesIncluidas6.add("Moria");
-		atraccionesIncluidas6.add("Bosque Negro");
-		atraccionesIncluidas6.add("Mordor");
+		Atraccion moria = new Atraccion(1, "Moria", 10, 2.0, 6, "AVENTURA");
+		Atraccion bosqueNegro = new Atraccion(2, "Bosque Negro", 3, 4.0, 12, "AVENTURA");
+		Atraccion mordor = new Atraccion(3, "Mordor", 25, 3.0, 4, "AVENTURA");
+		Atraccion gondor = new Atraccion(4, "Gondor", 15, 5.0, 20, "AVENTURA");
+		Atraccion laComarca = new Atraccion(6, "La Comarca", 3, 6.5, 150, "DEGUSTACION");
+		Atraccion lothlorien = new Atraccion(7, "Lothlorien", 35, 1.0, 30, "DEGUSTACION");
+		Atraccion abismoDeHelm = new Atraccion(9, "Abismo de Helm", 5, 2.0, 15, "PAISAJE");
+		Atraccion erebor = new Atraccion(10, "Erebor", 12, 3.0, 32, "PAISAJE");
+		Atraccion minasTirith = new Atraccion(11, "Minas Tirith", 5, 2.5, 25, "PAISAJE");
+
+		atraccionesIncluidas1.add(laComarca);
+		atraccionesIncluidas1.add(lothlorien);
+		atraccionesIncluidas2.add(erebor);
+		atraccionesIncluidas2.add(minasTirith);
+		atraccionesIncluidas3.add(bosqueNegro);
+		atraccionesIncluidas3.add(mordor);
+		atraccionesIncluidas4.add(moria);
+		atraccionesIncluidas4.add(gondor);
+		atraccionesIncluidas5.add(abismoDeHelm);
+		atraccionesIncluidas5.add(erebor);
+		atraccionesIncluidas5.add(minasTirith);
+		atraccionesIncluidas6.add(moria);
+		atraccionesIncluidas6.add(bosqueNegro);
+		atraccionesIncluidas6.add(mordor);
 
 		Promocion promocionAbsoluta1 = new PromocionAbsoluta(1, "PromocionAbsoluta 1", "DEGUSTACION", 36,
 				atraccionesIncluidas1);
@@ -94,6 +103,22 @@ public class PromocionDAOImplTest {
 		promocionesEsperadas.add(promocionAxB2);
 
 		assertEquals(promocionesEsperadas, promocionesReales);
+
+	}
+
+	@Test
+	public void listaAtraccionesIncluidasTest() {
+		PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
+		ArrayList<Atraccion> atraccionesReales = new ArrayList<Atraccion>();
+		String nombrePromo = "PromocionAxB 1";
+		atraccionesReales = promocionDAO.listarAtraccionesIncluidas(nombrePromo);
+
+		ArrayList<Atraccion> atraccionesEsperadas = new ArrayList<Atraccion>();
+		atraccionesEsperadas.add(new Atraccion(9, "Abismo de Helm", 5, 2.0, 15, "PAISAJE"));
+		atraccionesEsperadas.add(new Atraccion(10, "Erebor", 12, 3.0, 32, "PAISAJE"));
+		atraccionesEsperadas.add(new Atraccion(11, "Minas Tirith", 5, 2.5, 25, "PAISAJE"));
+
+		assertEquals(atraccionesEsperadas, atraccionesReales);
 
 	}
 

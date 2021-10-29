@@ -3,15 +3,12 @@ package paqueteTurismoTM;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import dao.AtraccionDAO;
-import dao.DAOFactory;
-
 public class PromocionPorcentual extends Promocion {
 
 	private double descuento; // decimal
 
 	public PromocionPorcentual(int id_promocion, String nombre, String tipoAtraccion, double descuento,
-			ArrayList<String> atracciones) {
+			ArrayList<Atraccion> atracciones) {
 		super(id_promocion, nombre, tipoAtraccion, atracciones);
 		this.descuento = descuento;
 	}
@@ -19,15 +16,8 @@ public class PromocionPorcentual extends Promocion {
 	@Override
 	public int getCosto() {
 	costo = 0;
-		for (String a : atracciones) {
-			ArrayList<Oferta> lista_atracciones = new ArrayList<Oferta>();
-			AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
-			lista_atracciones.addAll(atraccionDAO.findAll());
-			for (Oferta b : lista_atracciones) {
-				if (a.equals(b.nombre)) {
-					costo += b.getCosto();
-				}
-			}
+		for (Atraccion unaAtraccion : atracciones) {
+			costo += unaAtraccion.getCosto();
 		}
 		return (int) (costo * (1 - descuento));
 	}
@@ -35,7 +25,7 @@ public class PromocionPorcentual extends Promocion {
 	@Override
 	public String toString() {
 		return "" + nombre + " contiene las siguientes atracciones de tipo " + "[" + tipoAtraccion + "]:" + "\n\t"
-				+ atracciones + "\n\tSu costo total es de " + this.getCosto() + " monedas de oro"
+				+ this.getNombreAtracciones()+ "\n\tSu costo total es de " + this.getCosto() + " monedas de oro"
 				+ "\n\tEl tiempo total necesario es de " + this.getTiempo() + " Hs.\n";
 	}
 
