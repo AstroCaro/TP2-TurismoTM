@@ -20,6 +20,8 @@ public abstract class Oferta {
 		return this.tipoAtraccion;
 	}
 
+
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(nombre, tiempo, tipoAtraccion);

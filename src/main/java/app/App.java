@@ -14,23 +14,24 @@ import paqueteTurismoTM.Promocion;
 
 public class App {
 	
-	public static ArrayList<Oferta> ofertas = new ArrayList<Oferta>();
+	public static ArrayList<Atraccion> atracciones = new ArrayList<Atraccion>();
 	public static void main(String[] args) {
 		/*************** APP AtraccionDAO ****************/
 		AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
 		
-		ofertas.addAll(atraccionDAO.findAll());
-		System.out.println(ofertas);
+		atracciones.addAll(atraccionDAO.findAll());
+		System.out.println(atracciones);
 		
 		Atraccion unaAtraccion = new Atraccion(12,"Rivendell",20,4, 9,"PAISAJE");
 		atraccionDAO.updateCupo(unaAtraccion);
+		atracciones.indexOf(unaAtraccion);
 		
 		System.out.println(atraccionDAO.findAtraccionPorNombre(unaAtraccion.getNombre()));
 		
 		/*************** APP PromocionDAO ****************/
 		PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
 		String promo = "PromocionAbsoluta 1";
-		System.out.println(promocionDAO.listarAtraccionesIncluidas(promo));
+		System.out.println(promocionDAO.listarAtraccionesIncluidas(promo,atracciones));
 //		System.out.println(promocionDAO.findAll());		
 //		
 //		ofertas.addAll(promocionDAO.findAll());

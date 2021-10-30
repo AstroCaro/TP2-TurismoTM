@@ -70,4 +70,5 @@ public class PromocionAxB extends Promocion {
 		return Objects.equals(atraccionGratis, other.atraccionGratis);
 	}
 
+	
 }

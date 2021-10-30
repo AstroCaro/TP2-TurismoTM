@@ -16,14 +16,16 @@ public class Ofertable {
 
 	public ArrayList<Cliente> clientes = new ArrayList<Cliente>();
 	public ArrayList<Oferta> ofertas = new ArrayList<Oferta>();
+	public ArrayList<Atraccion> atracciones = new ArrayList<Atraccion>();
 	ClienteDAO clienteDAO = DAOFactory.getClienteDAO();
 	AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
 	PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
 
 	public Ofertable() {
 		this.clientes.addAll(clienteDAO.findAll());
-		this.ofertas.addAll(atraccionDAO.findAll());
-		this.ofertas.addAll(promocionDAO.findAll());
+		this.atracciones.addAll(atraccionDAO.findAll());
+		this.ofertas.addAll(atracciones);
+		this.ofertas.addAll(promocionDAO.findAll(atracciones));
 	}
 
 	public ArrayList<Cliente> getClientes() {
@@ -32,124 +34,6 @@ public class Ofertable {
 
 	public ArrayList<Oferta> getOfertas() {
 		return ofertas;
-	}
-
-	public boolean comprobarSiHayOferta(Cliente unCliente) {
-		// Reiniciar la copia por cada nuevo cliente
-		ofertasCopia.removeAll(ofertasCopia);
-		for (Oferta unaOferta : ofertas) {
-			ofertasCopia.add(unaOferta);
-		}
-		quitarOfertasDeItinerario(unCliente);
-		return (ofertas != null);
-	}
-
-	public void ordenarOfertas(String preferencia) {
-		Collections.sort(ofertasCopia, new ComparadorDeOfertas(preferencia));
-	}
-
-	private void quitarOfertasDeItinerario(Cliente unCliente) {
-		@SuppressWarnings("unchecked")
-		ArrayList<Oferta> copia = (ArrayList<Oferta>) ofertasCopia.clone();
-		for (Oferta unaOferta : unCliente.itinerario.ofertasCompradas) {
-
-			if (unaOferta instanceof Promocion) {
-				Promocion unaPromo = (Promocion) unaOferta;
-				ArrayList<Atraccion> atraccionesCompradas = unaPromo.getAtracciones();
-				for (Atraccion unaAtraccion : atraccionesCompradas) {
-					for (Oferta ofertaCopia : copia) {
-						if (ofertaCopia instanceof Promocion) {
-							Promocion otraPromo = (Promocion) ofertaCopia;
-							ArrayList<Atraccion> atraccionesIncluidas = otraPromo.getAtracciones();
-							// if atraccionesIncluidas.contains(unaAtraccion) {
-							// ofertasCopia.remove(ofertaCopia)
-							for (Atraccion otraAtraccion : atraccionesIncluidas) {
-								if (unaAtraccion.equals(otraAtraccion)) {
-									ofertasCopia.remove(ofertaCopia);// se elimina toda la promocion si incluye al menos una de
-																		// las atracciones que se compró en una
-																		// Promocion
-								}
-							}
-						} else if (unaAtraccion.equals(ofertaCopia)) {
-							ofertasCopia.remove(ofertaCopia);
-						}
-					}
-				}
-			} else
-				// if copia.contains(unaOferta){
-				// ofertasCopia.remove(unaOferta)
-				for (Oferta b : copia) {
-					if (unaOferta.getNombre().equals(b.nombre)) {
-						ofertasCopia.remove(b);
-					}
-
-				}
-		}
-	}
-
-	public boolean hayOfertaDisponible(Cliente unCliente) {
-		// ciclo que se repite cada vez que el cliente quiera seguir comprando
-		quitarOfertasQueNoPuedeComprar(unCliente);
-		quitarOfertasSinCupo();
-		// devuelve un booleano para saber si existe oferta para el cliente
-		return (ofertasCopia.size() > 0);
-	}
-
-	public Oferta getOferta() {
-		return ofertasCopia.get(0);
-	}
-
-	public void quitarOfertasSinCupo() {
-		@SuppressWarnings("unchecked")
-		ArrayList<Oferta> copia = (ArrayList<Oferta>) ofertasCopia.clone();
-		for (Oferta unaOferta : copia) {
-			if (unaOferta.getCuposDisponibles() <= 0) {
-				ofertasCopia.remove(unaOferta);
-			} 
-		}
-	}
-
-	public void quitarOfertasRechazadas() {
-		ofertasCopia.remove(0);
-	}
-
-	public void quitarOfertasCompradas() {
-		@SuppressWarnings("unchecked")
-		ArrayList<Oferta> copia = (ArrayList<Oferta>) ofertasCopia.clone();
-		if (copia.get(0) instanceof Promocion) {
-			Promocion unaPromo = (Promocion) copia.get(0);
-			ArrayList<String> atraccionesCompradas = unaPromo.getNombreAtracciones();
-			for (String a : atraccionesCompradas) {
-				for (Oferta b : copia) {
-					if (b instanceof Promocion) {
-						Promocion otraPromo = (Promocion) b;
-						ArrayList<String> atraccionesIncluidas = otraPromo.getNombreAtracciones();
-						if (atraccionesIncluidas.contains(a)) {
-							ofertasCopia.remove(b);
-						}
-//						for (Atraccion c : atraccionesIncluidas) {
-//							if (a.equals(c)) {
-//								ofertasCopia.remove(b);
-//							}
-//						}
-					} else if (a.equals(b.nombre)) {
-						ofertasCopia.remove(b);
-											}
-				}
-			}
-		} else
-			ofertasCopia.remove(0);
-	}
-
-	public void quitarOfertasQueNoPuedeComprar(Cliente unCliente) {
-		@SuppressWarnings("unchecked")
-		ArrayList<Oferta> copia = (ArrayList<Oferta>) ofertasCopia.clone();
-		for (Oferta ofertaImposible : copia) {
-			if (unCliente.presupuesto < ofertaImposible.getCosto()
-					|| unCliente.tiempo_disponible < ofertaImposible.getTiempo()) {
-				ofertasCopia.remove(ofertaImposible);
-			}
-		}
 	}
 
 	public void sugerenciaCliente() throws IOException {
@@ -194,6 +78,109 @@ public class Ofertable {
 
 	}
 
+	public boolean comprobarSiHayOferta(Cliente unCliente) {
+		// Reiniciar la copia por cada nuevo cliente
+		ofertasCopia.removeAll(ofertasCopia);
+		for (Oferta unaOferta : ofertas) {
+			ofertasCopia.add(unaOferta);
+		}
+		quitarOfertasDeItinerario(unCliente);
+		return (ofertas != null);
+	}
+
+	public void ordenarOfertas(String preferencia) {
+		Collections.sort(ofertasCopia, new ComparadorDeOfertas(preferencia));
+	}
+
+	public boolean hayOfertaDisponible(Cliente unCliente) {
+		// ciclo que se repite cada vez que el cliente quiera seguir comprando
+		quitarOfertasQueNoPuedeComprar(unCliente);
+		quitarOfertasSinCupo();
+		return (ofertasCopia.size() > 0);
+	}
+
+	public void quitarOfertasQueNoPuedeComprar(Cliente unCliente) {
+		@SuppressWarnings("unchecked")
+		ArrayList<Oferta> copia = (ArrayList<Oferta>) ofertasCopia.clone();
+		for (Oferta ofertaImposible : copia) {
+			if (unCliente.presupuesto < ofertaImposible.getCosto()
+					|| unCliente.tiempo_disponible < ofertaImposible.getTiempo()) {
+				ofertasCopia.remove(ofertaImposible);
+			}
+		}
+	}
+
+	public void quitarOfertasSinCupo() {
+		@SuppressWarnings("unchecked")
+		ArrayList<Oferta> copia = (ArrayList<Oferta>) ofertasCopia.clone();
+		for (Oferta unaOferta : copia) {
+			if (unaOferta.getCuposDisponibles() <= 0) {
+				ofertasCopia.remove(unaOferta);
+			}
+		}
+	}
+
+	public Oferta getOferta() {
+		return ofertasCopia.get(0);
+	}
+
+	private void quitarOfertasDeItinerario(Cliente unCliente) {
+		@SuppressWarnings("unchecked")
+		ArrayList<Oferta> copia = (ArrayList<Oferta>) ofertasCopia.clone();
+		for (Oferta unaOferta : unCliente.itinerario.ofertasCompradas) {
+
+			if (unaOferta instanceof Promocion) {
+				Promocion unaPromo = (Promocion) unaOferta;
+				ArrayList<String> atraccionesCompradas = unaPromo.getNombreAtracciones();
+				for (String unaAtraccion : atraccionesCompradas) {
+					for (Oferta ofertaCopia : copia) {
+						if (ofertaCopia instanceof Promocion) {
+							Promocion otraPromo = (Promocion) ofertaCopia;
+							ArrayList<String> atraccionesIncluidas = otraPromo.getNombreAtracciones();
+							if (atraccionesIncluidas.contains(unaAtraccion)) {
+								ofertasCopia.remove(ofertaCopia);
+							}
+						} else if (unaAtraccion.equals(ofertaCopia.getNombre())) {
+							ofertasCopia.remove(ofertaCopia);
+						}
+					}
+				}
+			} else
+				for (Oferta b : copia) {
+					if (unaOferta.getNombre().equals(b.nombre)) {
+						ofertasCopia.remove(b);
+					}
+
+				}
+		}
+	}
+
+	public void quitarOfertasCompradas() {
+		@SuppressWarnings("unchecked")
+		ArrayList<Oferta> copia = (ArrayList<Oferta>) ofertasCopia.clone();
+		if (copia.get(0) instanceof Promocion) {
+			Promocion unaPromo = (Promocion) copia.get(0);
+			ArrayList<String> atraccionesCompradas = unaPromo.getNombreAtracciones();
+			for (String a : atraccionesCompradas) {
+				for (Oferta b : copia) {
+					if (b instanceof Promocion) {
+						Promocion otraPromo = (Promocion) b;
+						ArrayList<String> atraccionesIncluidas = otraPromo.getNombreAtracciones();
+						if (atraccionesIncluidas.contains(a)) {
+							ofertasCopia.remove(b);
+						}
+					} else if (a.equals(b.nombre)) {
+						ofertasCopia.remove(b);
+					}
+				}
+			}
+		} else
+			ofertasCopia.remove(0);
+	}
+
+	public void quitarOfertasRechazadas() {
+		ofertasCopia.remove(0);
+	}
 
 	private void actualizarCupos(Cliente unCliente, Oferta unaOferta) {
 		ClienteDAO clienteDAO = DAOFactory.getClienteDAO();
@@ -205,19 +192,15 @@ public class Ofertable {
 					if (oferta.getNombre().equals(atraccionComprada.getNombre())) {
 						oferta.venderCupo();
 						actualizarCupoDeAtraccion(oferta);
-
 					}
 				}
-
 			}
-
 		} else if (unaOferta instanceof Atraccion) {
 			unaOferta.venderCupo();
 			actualizarCupoDeAtraccion(unaOferta);
 		}
 
 	}
-
 
 	private void actualizarCupoDeAtraccion(Oferta unaOferta) {
 		AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
@@ -249,8 +232,6 @@ public class Ofertable {
 		System.out.println(unCliente.itinerario);
 		System.out.println();
 		System.out.println("----------------8<-------------------------------------------");
-//		LectorDeFicheros lector = new LectorDeFicheros();
-//		lector.generarTicket(unCliente);
 	}
 
 	private void mensajeNoPuedeComprarMas() {

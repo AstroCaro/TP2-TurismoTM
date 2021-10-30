@@ -19,7 +19,7 @@ import org.junit.Before;
 public class FuncionalidadTest {
 	ArrayList<Oferta> ofertas;
 	ArrayList<Oferta> promociones;
-	ArrayList<Oferta> atracciones;
+	ArrayList<Atraccion> atracciones;
 	
 	@Before
 	public void setUp() throws SQLException {
@@ -37,8 +37,11 @@ public class FuncionalidadTest {
 	@Test
 	public void pruebaGetCostoPromociones() {
 		PromocionDAO promocionDAO  = DAOFactory.getPromocionDAO();
+		AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
 		promociones = new ArrayList<Oferta>();
-		promociones.addAll(promocionDAO.findAll());
+		atracciones = new ArrayList<Atraccion>();
+		atracciones.addAll(atraccionDAO.findAll());
+		promociones.addAll(promocionDAO.findAll(atracciones));
 		ofertas = new ArrayList<Oferta>();
 		ofertas.addAll(promociones);
 		assertEquals(36, ofertas.get(0).getCosto());
@@ -51,8 +54,11 @@ public class FuncionalidadTest {
 	@Test
 	public void pruebaGetTiempoPromociones() {
 		PromocionDAO promocionDAO  = DAOFactory.getPromocionDAO();
+		AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
 		promociones = new ArrayList<Oferta>();
-		promociones.addAll(promocionDAO.findAll());
+		atracciones = new ArrayList<Atraccion>();
+		atracciones.addAll(atraccionDAO.findAll());
+		promociones.addAll(promocionDAO.findAll(atracciones));
 		ofertas = new ArrayList<Oferta>();
 		ofertas.addAll(promociones);
 		assertEquals(7.5, ofertas.get(0).getTiempo(), 0);
@@ -66,7 +72,7 @@ public class FuncionalidadTest {
 	@Test
 	public void pruebaGetCostoAtracciones() {
 		AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
-		atracciones = new ArrayList<Oferta>();
+		atracciones = new ArrayList<Atraccion>();
 		atracciones.addAll(atraccionDAO.findAll());
 		ofertas = new ArrayList<Oferta>();
 		ofertas.addAll(atracciones);
@@ -87,7 +93,7 @@ public class FuncionalidadTest {
 	@Test
 	public void pruebaGetTiempoAtracciones() {
 		AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
-		atracciones = new ArrayList<Oferta>();
+		atracciones = new ArrayList<Atraccion>();
 		atracciones.addAll(atraccionDAO.findAll());
 		ofertas = new ArrayList<Oferta>();
 		ofertas.addAll(atracciones);

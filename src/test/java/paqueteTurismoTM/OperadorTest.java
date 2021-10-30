@@ -17,38 +17,41 @@ import dao.PromocionDAO;
 @RunWith(Enclosed.class)
 public class OperadorTest {
 	
+	
+	
 	public static class testConOfertasDeBaseDeDatos{ //utiliza el @Before y el @After
-	TurismoTM turismo;
-	@SuppressWarnings({ "unchecked", "static-access" })
+	Ofertable turismo;
+	public ArrayList<Atraccion> atracciones = new ArrayList<Atraccion>();
+	@SuppressWarnings({ "unchecked" })
 	@Before
 	public void setup() {
-		turismo = new TurismoTM();
+		turismo = new Ofertable();
 
 		AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
-		turismo.atracciones.addAll(atraccionDAO.findAll());
-		turismo.ofertas.addAll(atraccionDAO.findAll());
+		atracciones.addAll(atraccionDAO.findAll());
+		turismo.atracciones.addAll(atracciones);
+		turismo.ofertas.addAll(atracciones);
 		PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
-		turismo.ofertas.addAll(promocionDAO.findAll());
+		turismo.ofertas.addAll(promocionDAO.findAll(atracciones));
 
-		Ofertable.ofertasCopia = (ArrayList<Oferta>) turismo.ofertas.clone();
+		turismo.ofertasCopia = (ArrayList<Oferta>) turismo.ofertas.clone();
 	}
 	
-	@SuppressWarnings("static-access")
 	@After
 	public void TearDown() {
 		turismo.ofertas.clear();
 		turismo.atracciones.clear();
-		Ofertable.ofertasCopia.clear();
+		turismo.ofertasCopia.clear();
 	}
 
-	@SuppressWarnings({ "static-access", "unchecked" })
+	@SuppressWarnings({ "unchecked" })
 	@Test
 	public void ordenarOfertasTest(){
 
 		Cliente gimli = new Cliente(5, "Gimli", "AVENTURA", 250, 20.0);
-		Ofertable.ordenarOfertas(gimli.preferencia);
+		turismo.ordenarOfertas(gimli.preferencia);
 
-		ArrayList<Oferta> ofertasOrdenadas = (ArrayList<Oferta>) Ofertable.ofertasCopia.clone();
+		ArrayList<Oferta> ofertasOrdenadas = (ArrayList<Oferta>) turismo.ofertasCopia.clone();
 		ArrayList<Oferta> ofertasEsperadas = new ArrayList<Oferta>();
 
 		// Promociones de la preferencia
@@ -83,11 +86,11 @@ public class OperadorTest {
 	public void filtrosDeOroYTiempoTest(){		
 
 		Cliente gimli = new Cliente(5, "Gimli", "AVENTURA", 20, 7);
-		Ofertable.ordenarOfertas(gimli.preferencia);
-		ArrayList<Oferta> ofertasEsperadas = (ArrayList<Oferta>) Ofertable.ofertasCopia.clone();
-		Ofertable.ordenarOfertas(gimli.preferencia);
-		Ofertable.hayOfertaDisponible(gimli);
-		ArrayList<Oferta> ofertasReales = (ArrayList<Oferta>) Ofertable.ofertasCopia.clone();
+		turismo.ordenarOfertas(gimli.preferencia);
+		ArrayList<Oferta> ofertasEsperadas = (ArrayList<Oferta>) turismo.ofertasCopia.clone();
+		turismo.ordenarOfertas(gimli.preferencia);
+		turismo.hayOfertaDisponible(gimli);
+		ArrayList<Oferta> ofertasReales = (ArrayList<Oferta>) turismo.ofertasCopia.clone();
 
 		//El sistema ordena las ofertas 
 
@@ -126,10 +129,10 @@ public class OperadorTest {
 	
 	public static class testConOtrasOfertas{//se inserta en turismo.oferta otras ofertas
 	
-	@SuppressWarnings({ "static-access", "unchecked" })
+	@SuppressWarnings({ "unchecked" })
 	@Test
 	public void filtroDeOfertasSinCupoTest(){
-		TurismoTM turismo = new TurismoTM();
+		Ofertable turismo = new Ofertable();
 		ArrayList<Atraccion> atraccionesIncluidas1 = new ArrayList<Atraccion>();
 		ArrayList<Atraccion> atraccionesIncluidas2 = new ArrayList<Atraccion>();
 		Atraccion laComarca = new Atraccion(6, "La Comarca", 3, 6.5, 0, "DEGUSTACION"); //sin cupo
@@ -151,9 +154,9 @@ public class OperadorTest {
 		turismo.ofertas.add(promocionAbsoluta1);
 		turismo.ofertas.add(promocionAbsoluta2);
 		turismo.ofertas.addAll(turismo.atracciones);
-		Ofertable.ofertasCopia = (ArrayList<Oferta>) turismo.ofertas.clone();
-		Ofertable.quitarOfertasSinCupo();
-		ArrayList<Oferta> ofertasReales = (ArrayList<Oferta>) Ofertable.ofertasCopia.clone();
+		turismo.ofertasCopia = (ArrayList<Oferta>) turismo.ofertas.clone();
+		turismo.quitarOfertasSinCupo();
+		ArrayList<Oferta> ofertasReales = (ArrayList<Oferta>) turismo.ofertasCopia.clone();
 		ArrayList<Oferta> ofertasEsperadas = new ArrayList<Oferta>();
 		ofertasEsperadas.add(promocionAbsoluta2);
 		ofertasEsperadas.add(lothlorien);

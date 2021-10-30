@@ -13,12 +13,14 @@ import org.junit.Test;
 import jdbc.ConnectionProvider;
 import paqueteTurismoTM.Atraccion;
 import paqueteTurismoTM.Oferta;
+import paqueteTurismoTM.Ofertable;
 import paqueteTurismoTM.Promocion;
 import paqueteTurismoTM.PromocionAbsoluta;
-import paqueteTurismoTM.TurismoTM;
 
 public class ItinerarioDAOImplTest {
 
+	public ArrayList<Atraccion> atracciones = new ArrayList<Atraccion>();
+	
 	@Before
 	public void setUp() throws SQLException {
 		Connection conexion = ConnectionProvider.getConnection();
@@ -31,47 +33,45 @@ public class ItinerarioDAOImplTest {
 		conexion.rollback();
 		conexion.setAutoCommit(true);
 	}
+//
+//	@Test
+//	public void insertarAtraccionYFindItinerarioPorClienteTest() {
+//		ItinerarioDAO itinerarioDAO = DAOFactory.getItinerarioDAO();
+//		Ofertable turismo = new Ofertable(); 
+//
+//		AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
+//		turismo.atracciones.addAll(atraccionDAO.findAll());
+//		turismo.ofertas.addAll(turismo.atracciones);
+//
+//		PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
+//		turismo.ofertas.addAll(promocionDAO.findAll(turismo.atracciones));
+//
+//		ArrayList<Oferta> itinerarioReal = new ArrayList<Oferta>();
+//		Atraccion unaAtraccion = new Atraccion(12, "Rivendell", 20, 4, 9, "PAISAJE");
+//		itinerarioDAO.insertAtraccion(2, unaAtraccion);
+//		itinerarioReal = itinerarioDAO.findItinerarioPorCliente(2);
+//
+//		//System.out.println(itinerarioDAO.findItinerarioPorCliente(2));
+//
+//		ArrayList<Oferta> itinerarioEsperado = new ArrayList<Oferta>();
+//		itinerarioEsperado.add(unaAtraccion);
+//		//System.out.println(itinerarioEsperado);
+//
+//		assertEquals(itinerarioEsperado, itinerarioReal);
+//
+//	}
 
-	@SuppressWarnings("static-access")
-	@Test
-	public void insertarAtraccionYFindItinerarioPorClienteTest() {
-		ItinerarioDAO itinerarioDAO = DAOFactory.getItinerarioDAO();
-		TurismoTM turismo = new TurismoTM();
-
-		AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
-		turismo.atracciones.addAll(atraccionDAO.findAll());
-		turismo.ofertas.addAll(atraccionDAO.findAll());
-
-		PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
-		turismo.ofertas.addAll(promocionDAO.findAll());
-
-		ArrayList<Oferta> itinerarioReal = new ArrayList<Oferta>();
-		Atraccion unaAtraccion = new Atraccion(12, "Rivendell", 20, 4, 9, "PAISAJE");
-		itinerarioDAO.insertAtraccion(2, unaAtraccion);
-		itinerarioReal = itinerarioDAO.findItinerarioPorCliente(2);
-
-		System.out.println(itinerarioDAO.findItinerarioPorCliente(2));
-
-		ArrayList<Oferta> itinerarioEsperado = new ArrayList<Oferta>();
-		itinerarioEsperado.add(unaAtraccion);
-		System.out.println(itinerarioEsperado);
-
-		assertEquals(itinerarioEsperado, itinerarioReal);
-
-	}
-
-	@SuppressWarnings("static-access")
 	@Test
 	public void insertarPromocionYFindItinerarioPorClienteTest() {
 		ItinerarioDAO itinerarioDAO = DAOFactory.getItinerarioDAO();
-		TurismoTM turismo = new TurismoTM();
+		Ofertable turismo = new Ofertable();
 
 		AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
-		turismo.atracciones.addAll(atraccionDAO.findAll());
-		turismo.ofertas.addAll(atraccionDAO.findAll());
+		atracciones.addAll(atraccionDAO.findAll());
+		turismo.ofertas.addAll(atracciones);
 
 		PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
-		turismo.ofertas.addAll(promocionDAO.findAll());
+		turismo.ofertas.addAll(promocionDAO.findAll(atracciones));
 
 		ArrayList<Oferta> itinerarioReal = new ArrayList<Oferta>();
 
@@ -86,11 +86,11 @@ public class ItinerarioDAOImplTest {
 
 		itinerarioReal = itinerarioDAO.findItinerarioPorCliente(2);
 
-		//System.out.println(itinerarioDAO.findItinerarioPorCliente(2));
+		System.out.println(itinerarioDAO.findItinerarioPorCliente(2));
 
 		ArrayList<Oferta> itinerarioEsperado = new ArrayList<Oferta>();
 		itinerarioEsperado.add(unaPromocion);
-		//System.out.println(itinerarioEsperado);
+		System.out.println(itinerarioEsperado);
 
 		assertEquals(itinerarioEsperado, itinerarioReal);
 

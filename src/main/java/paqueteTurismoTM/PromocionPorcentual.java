@@ -48,6 +48,7 @@ public class PromocionPorcentual extends Promocion {
 		PromocionPorcentual other = (PromocionPorcentual) obj;
 		return Double.doubleToLongBits(descuento) == Double.doubleToLongBits(other.descuento);
 	}
-	
+
+
 	
 }

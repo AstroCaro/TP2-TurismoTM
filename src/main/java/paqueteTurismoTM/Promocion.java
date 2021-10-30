@@ -78,7 +78,7 @@ public abstract class Promocion extends Oferta {
 		if (getClass() != obj.getClass())
 			return false;
 		Promocion other = (Promocion) obj;
-		return Objects.equals(atracciones, other.atracciones) && costo == other.costo
+		return atracciones.equals(other.atracciones) && costo == other.costo
 				&& cuposDisponibles == other.cuposDisponibles && id_promocion == other.id_promocion
 				&& Double.doubleToLongBits(tiempoTotal) == Double.doubleToLongBits(other.tiempoTotal);
 	}

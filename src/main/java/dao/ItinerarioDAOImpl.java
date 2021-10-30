@@ -19,9 +19,10 @@ public class ItinerarioDAOImpl implements ItinerarioDAO {
 
 	@Override
 	public ArrayList<Oferta> findItinerarioPorCliente(int id_cliente) {
-		ArrayList<Oferta> comprasCliente = new ArrayList<Oferta>();
-		Ofertable boleteria = new Ofertable(); 
+
 		try {
+			ArrayList<Oferta> comprasCliente = new ArrayList<Oferta>();
+			Ofertable boleteria = new Ofertable(); 
 			String sql = "SELECT coalesce(promociones.nombre, atracciones.nombre)AS compras " 
 					+ "FROM itinerarios "
 					+ "LEFT JOIN \"promociones\" ON \"promociones\".id_promocion = itinerarios.fk_promocion "
