@@ -12,7 +12,7 @@ import org.junit.Test;
 
 import jdbc.ConnectionProvider;
 import paqueteTurismoTM.Atraccion;
-import paqueteTurismoTM.Ofertable;
+import paqueteTurismoTM.TurismoTM;
 import paqueteTurismoTM.Promocion;
 import paqueteTurismoTM.PromocionAbsoluta;
 import paqueteTurismoTM.PromocionAxB;
@@ -21,14 +21,14 @@ import paqueteTurismoTM.PromocionPorcentual;
 
 public class PromocionDAOImplTest {
 
-	Ofertable turismo;
+	TurismoTM turismo;
 	public ArrayList<Atraccion> atracciones = new ArrayList<Atraccion>();
 	@Before
 	public void setUp() throws SQLException {
 		Connection conexion = ConnectionProvider.getConnection();
 		conexion.setAutoCommit(false);
 
-		turismo = new Ofertable();
+		turismo = new TurismoTM();
 
 		AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
 		atracciones.addAll(atraccionDAO.findAll());

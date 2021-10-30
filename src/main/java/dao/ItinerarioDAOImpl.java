@@ -12,7 +12,7 @@ import paqueteTurismoTM.Atraccion;
 
 import paqueteTurismoTM.Itinerario;
 import paqueteTurismoTM.Oferta;
-import paqueteTurismoTM.Ofertable;
+import paqueteTurismoTM.TurismoTM;
 import paqueteTurismoTM.Promocion;
 
 public class ItinerarioDAOImpl implements ItinerarioDAO {
@@ -22,7 +22,7 @@ public class ItinerarioDAOImpl implements ItinerarioDAO {
 
 		try {
 			ArrayList<Oferta> comprasCliente = new ArrayList<Oferta>();
-			Ofertable boleteria = new Ofertable(); 
+			TurismoTM boleteria = new TurismoTM(); 
 			String sql = "SELECT coalesce(promociones.nombre, atracciones.nombre)AS compras " 
 					+ "FROM itinerarios "
 					+ "LEFT JOIN \"promociones\" ON \"promociones\".id_promocion = itinerarios.fk_promocion "

@@ -13,14 +13,14 @@ import org.junit.Test;
 import jdbc.ConnectionProvider;
 import paqueteTurismoTM.Atraccion;
 import paqueteTurismoTM.Oferta;
-import paqueteTurismoTM.Ofertable;
+import paqueteTurismoTM.TurismoTM;
 
 public class ItinerarioDAOImplTest {
 
 	public ArrayList<Atraccion> atracciones = new ArrayList<Atraccion>();
 	public ArrayList<Atraccion> promociones = new ArrayList<Atraccion>();
 	public static ArrayList<Oferta> ofertas = new ArrayList<Oferta>();
-	Ofertable turismo;
+	TurismoTM turismo;
 
 	@Before
 	public void setUp() throws SQLException {
@@ -40,7 +40,7 @@ public class ItinerarioDAOImplTest {
 	@Test
 	public void insertarAtraccionYFindItinerarioPorClienteTest() {
 
-		turismo = new Ofertable();
+		turismo = new TurismoTM();
 
 		ArrayList<Oferta> itinerarioReal = new ArrayList<Oferta>();
 		ArrayList<Oferta> itinerarioEsperado = new ArrayList<Oferta>();

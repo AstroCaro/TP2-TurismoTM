@@ -20,7 +20,7 @@ public class FuncionalidadTest {
 	ArrayList<Oferta> ofertas;
 	ArrayList<Oferta> promociones;
 	ArrayList<Atraccion> atracciones;
-	
+
 	@Before
 	public void setUp() throws SQLException {
 		Connection conexion = ConnectionProvider.getConnection();
@@ -33,10 +33,10 @@ public class FuncionalidadTest {
 		conexion.rollback();
 		conexion.setAutoCommit(true);
 	}
-	
+
 	@Test
 	public void pruebaGetCostoPromociones() {
-		PromocionDAO promocionDAO  = DAOFactory.getPromocionDAO();
+		PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
 		AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
 		promociones = new ArrayList<Oferta>();
 		atracciones = new ArrayList<Atraccion>();
@@ -51,9 +51,10 @@ public class FuncionalidadTest {
 		assertEquals(17, ofertas.get(4).getCosto());
 		assertEquals(13, ofertas.get(5).getCosto());
 	}
+
 	@Test
 	public void pruebaGetTiempoPromociones() {
-		PromocionDAO promocionDAO  = DAOFactory.getPromocionDAO();
+		PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
 		AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
 		promociones = new ArrayList<Oferta>();
 		atracciones = new ArrayList<Atraccion>();
