@@ -69,15 +69,19 @@ public abstract class Promocion extends Oferta {
 		return result;
 	}
 
+	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (!super.equals(obj))
+		}
+		if (!super.equals(obj)) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		Promocion other = (Promocion) obj;
-		return atracciones.equals(other.atracciones) && costo == other.costo
+		return Objects.equals(atracciones, other.atracciones) && costo == other.costo
 				&& cuposDisponibles == other.cuposDisponibles && id_promocion == other.id_promocion
 				&& Double.doubleToLongBits(tiempoTotal) == Double.doubleToLongBits(other.tiempoTotal);
 	}

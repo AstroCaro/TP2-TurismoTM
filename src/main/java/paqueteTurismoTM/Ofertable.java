@@ -17,6 +17,7 @@ public class Ofertable {
 	public ArrayList<Cliente> clientes = new ArrayList<Cliente>();
 	public ArrayList<Oferta> ofertas = new ArrayList<Oferta>();
 	public ArrayList<Atraccion> atracciones = new ArrayList<Atraccion>();
+	public ArrayList<Promocion> promociones = new ArrayList<Promocion>();
 	ClienteDAO clienteDAO = DAOFactory.getClienteDAO();
 	AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
 	PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
@@ -24,8 +25,9 @@ public class Ofertable {
 	public Ofertable() {
 		this.clientes.addAll(clienteDAO.findAll());
 		this.atracciones.addAll(atraccionDAO.findAll());
+		this.promociones.addAll(promocionDAO.findAll(atracciones));
 		this.ofertas.addAll(atracciones);
-		this.ofertas.addAll(promocionDAO.findAll(atracciones));
+		this.ofertas.addAll(promociones);
 	}
 
 	public ArrayList<Cliente> getClientes() {
@@ -133,25 +135,26 @@ public class Ofertable {
 				Promocion unaPromo = (Promocion) unaOferta;
 				ArrayList<String> atraccionesCompradas = unaPromo.getNombreAtracciones();
 				for (String unaAtraccion : atraccionesCompradas) {
-					for (Oferta ofertaCopia : copia) {
-						if (ofertaCopia instanceof Promocion) {
-							Promocion otraPromo = (Promocion) ofertaCopia;
-							ArrayList<String> atraccionesIncluidas = otraPromo.getNombreAtracciones();
-							if (atraccionesIncluidas.contains(unaAtraccion)) {
-								ofertasCopia.remove(ofertaCopia);
-							}
-						} else if (unaAtraccion.equals(ofertaCopia.getNombre())) {
-							ofertasCopia.remove(ofertaCopia);
-						}
-					}
+					quitarAtraccionesDeItinerario(copia, unaAtraccion);
 				}
-			} else
-				for (Oferta b : copia) {
-					if (unaOferta.getNombre().equals(b.nombre)) {
-						ofertasCopia.remove(b);
-					}
+			} else if (unaOferta instanceof Atraccion) {
+				Atraccion otraAtraccion = (Atraccion) unaOferta;
+				quitarAtraccionesDeItinerario(copia, otraAtraccion.getNombre());
+			}
+		}
+	}
 
+	public void quitarAtraccionesDeItinerario(ArrayList<Oferta> copia, String unaAtraccion) {
+		for (Oferta ofertaCopia : copia) {
+			if (ofertaCopia instanceof Promocion) {
+				Promocion otraPromo = (Promocion) ofertaCopia;
+				ArrayList<String> atraccionesIncluidas = otraPromo.getNombreAtracciones();
+				if (atraccionesIncluidas.contains(unaAtraccion)) {
+					ofertasCopia.remove(ofertaCopia);
 				}
+			} else if (unaAtraccion.equals(ofertaCopia.getNombre())) {
+				ofertasCopia.remove(ofertaCopia);
+			}
 		}
 	}
 

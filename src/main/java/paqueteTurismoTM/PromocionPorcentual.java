@@ -37,20 +37,21 @@ public class PromocionPorcentual extends Promocion {
 		return result;
 	}
 
-	
+	@Override
 	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
 		if (!super.equals(obj)) {
 			return false;
 		}
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
+		if (getClass() != obj.getClass()) {
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
+		}
 		PromocionPorcentual other = (PromocionPorcentual) obj;
 		return Double.doubleToLongBits(descuento) == Double.doubleToLongBits(other.descuento);
 	}
+
 
 
 	
