@@ -15,20 +15,26 @@ import paqueteTurismoTM.Atraccion;
 import paqueteTurismoTM.Oferta;
 import paqueteTurismoTM.Ofertable;
 import paqueteTurismoTM.Promocion;
-import paqueteTurismoTM.PromocionAbsoluta;
+import paqueteTurismoTM.PromocionPorcentual;
 
 public class ItinerarioDAOImplTest {
 
 	public ArrayList<Atraccion> atracciones = new ArrayList<Atraccion>();
-	
+	public static ArrayList<Oferta> ofertas = new ArrayList<Oferta>();
+	Ofertable turismo;
 	@Before
 	public void setUp() throws SQLException {
 		Connection conexion = ConnectionProvider.getConnection();
 		conexion.setAutoCommit(false);
+		turismo = new Ofertable();
+		turismo.atracciones.clear();
+		turismo.ofertas.clear();
 	}
 
 	@After
 	public void tearDown() throws SQLException {
+		turismo.atracciones.clear();
+		turismo.ofertas.clear();
 		Connection conexion = ConnectionProvider.getConnection();
 		conexion.rollback();
 		conexion.setAutoCommit(true);
@@ -63,44 +69,36 @@ public class ItinerarioDAOImplTest {
 
 	@Test
 	public void insertarPromocionYFindItinerarioPorClienteTest() {
-		ItinerarioDAO itinerarioDAO = DAOFactory.getItinerarioDAO();
-		Ofertable turismo = new Ofertable();
 
-		AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
-		atracciones.addAll(atraccionDAO.findAll());
-		turismo.ofertas.addAll(atracciones);
-
-		PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
-		turismo.ofertas.addAll(promocionDAO.findAll(atracciones));
-
+		ArrayList<Oferta> itinerarioEsperado = new ArrayList<Oferta>();
 		ArrayList<Oferta> itinerarioReal = new ArrayList<Oferta>();
+		ArrayList<Atraccion> atraccionesIncluidas3 = new ArrayList<Atraccion>();
 
-		ArrayList<Atraccion> atraccionesIncluidas1 = new ArrayList<Atraccion>();
+		ItinerarioDAO itinerarioDAO = DAOFactory.getItinerarioDAO();
+		AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
+		PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
 
-		atraccionesIncluidas1.add(atraccionDAO.findAtraccionPorNombre("La Comarca"));
-		atraccionesIncluidas1.add(atraccionDAO.findAtraccionPorNombre("Lothlorien"));
-		Promocion unaPromocion = new PromocionAbsoluta(1, "PromocionAbsoluta 1", "DEGUSTACION", 36,
-				atraccionesIncluidas1);
+		turismo.atracciones.addAll(atraccionDAO.findAll());
+		turismo.ofertas.addAll(atracciones);
+		turismo.ofertas.addAll(promocionDAO.findAll(turismo.atracciones));
 
+		Atraccion bosqueNegro = turismo.atracciones.get(1);
+		Atraccion mordor = turismo.atracciones.get(2);
+
+		atraccionesIncluidas3.add(bosqueNegro);
+		atraccionesIncluidas3.add(mordor);
+		Oferta unaOferta = new PromocionPorcentual(3, "PromocionPorcentual 1", "AVENTURA", 0.2, atraccionesIncluidas3);
+
+		Promocion unaPromocion = (Promocion) unaOferta;
+		itinerarioEsperado.add(unaOferta);
 		itinerarioDAO.insertPromocion(2, unaPromocion);
-
 		itinerarioReal = itinerarioDAO.findItinerarioPorCliente(2);
 
 		System.out.println(itinerarioDAO.findItinerarioPorCliente(2));
-
-		ArrayList<Oferta> itinerarioEsperado = new ArrayList<Oferta>();
-		itinerarioEsperado.add(unaPromocion);
 		System.out.println(itinerarioEsperado);
 
 		assertEquals(itinerarioEsperado, itinerarioReal);
 
 	}
-
-//	@Test
-//	public void encontrarItinerarioPorClienteTest() {
-//		ItinerarioDAO itinerarioDAO = DAOFactory.getItinerarioDAO();
-//
-//		
-//	}
 
 }

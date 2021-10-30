@@ -15,12 +15,14 @@ import paqueteTurismoTM.Promocion;
 public class App {
 	
 	public static ArrayList<Atraccion> atracciones = new ArrayList<Atraccion>();
+	public static ArrayList<Oferta> ofertas = new ArrayList<Oferta>();
 	public static void main(String[] args) {
 		/*************** APP AtraccionDAO ****************/
 		AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
 		
 		atracciones.addAll(atraccionDAO.findAll());
-		System.out.println(atracciones);
+		ofertas.addAll(atracciones);
+//		System.out.println(atracciones);
 		
 		Atraccion unaAtraccion = new Atraccion(12,"Rivendell",20,4, 9,"PAISAJE");
 		atraccionDAO.updateCupo(unaAtraccion);
@@ -34,7 +36,7 @@ public class App {
 		System.out.println(promocionDAO.listarAtraccionesIncluidas(promo,atracciones));
 //		System.out.println(promocionDAO.findAll());		
 //		
-//		ofertas.addAll(promocionDAO.findAll());
+		ofertas.addAll(promocionDAO.findAll(atracciones));
 //
 //		System.out.println(promocionDAO.findPromocionPorNombre("Promocion AxB1"));
 //		
@@ -50,11 +52,12 @@ public class App {
 //		/*************** APP ItinerarioDAO ****************/
 		ItinerarioDAO itinerarioDAO = DAOFactory.getItinerarioDAO();
 		System.out.println(itinerarioDAO.findItinerarioPorCliente(unCliente.getId_cliente()));
-//		Promocion unaPromocion = (Promocion) ofertas.get(13);
-//		//System.out.println((Promocion) ofertas.get(12));
-//		itinerarioDAO.insertAtraccion(unCliente.getId_cliente(), unaAtraccion);
-//		itinerarioDAO.insertPromocion(unCliente.getId_cliente(), unaPromocion);
-//		System.out.println(itinerarioDAO.findItinerarioPorCliente(unCliente.getId_cliente())); //cambiar TurismoTM.ofertas, para que funcione
+		Promocion unaPromocion = (Promocion) ofertas.get(13);
+		System.out.println("----"+unaPromocion);
+		System.out.println("----"+unaAtraccion);
+		itinerarioDAO.insertAtraccion(unCliente.getId_cliente(), unaAtraccion);
+		itinerarioDAO.insertPromocion(unCliente.getId_cliente(), unaPromocion);
+		System.out.println("+++"+itinerarioDAO.findItinerarioPorCliente(unCliente.getId_cliente())); //cambiar TurismoTM.ofertas, para que funcione
 	}
 		
 		

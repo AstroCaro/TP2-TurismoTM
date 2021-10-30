@@ -26,7 +26,9 @@ public class OperadorTest {
 	@Before
 	public void setup() {
 		turismo = new Ofertable();
-
+		turismo.atracciones.clear();
+		turismo.ofertas.clear();
+		turismo.ofertasCopia.clear();
 		AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
 		atracciones.addAll(atraccionDAO.findAll());
 		turismo.atracciones.addAll(atracciones);
@@ -39,8 +41,8 @@ public class OperadorTest {
 	
 	@After
 	public void TearDown() {
-		turismo.ofertas.clear();
 		turismo.atracciones.clear();
+		turismo.ofertas.clear();
 		turismo.ofertasCopia.clear();
 	}
 
@@ -129,10 +131,20 @@ public class OperadorTest {
 	
 	public static class testConOtrasOfertas{//se inserta en turismo.oferta otras ofertas
 	
+		Ofertable turismo;
+		
+	@Before
+	public void setup() {
+		turismo = new Ofertable();
+		turismo.atracciones.clear();
+		turismo.ofertas.clear();
+
+		turismo.ofertasCopia.clear();
+	}
+	
 	@SuppressWarnings({ "unchecked" })
 	@Test
 	public void filtroDeOfertasSinCupoTest(){
-		Ofertable turismo = new Ofertable();
 		ArrayList<Atraccion> atraccionesIncluidas1 = new ArrayList<Atraccion>();
 		ArrayList<Atraccion> atraccionesIncluidas2 = new ArrayList<Atraccion>();
 		Atraccion laComarca = new Atraccion(6, "La Comarca", 3, 6.5, 0, "DEGUSTACION"); //sin cupo

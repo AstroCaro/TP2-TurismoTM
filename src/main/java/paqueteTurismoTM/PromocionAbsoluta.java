@@ -26,8 +26,10 @@ public class PromocionAbsoluta extends Promocion {
 		return super.hashCode();
 	}
 
-	@Override
 	public boolean equals(Object obj) {
+		if (!super.equals(obj)) {
+			return false;
+		}
 		if (this == obj)
 			return true;
 		if (!super.equals(obj))

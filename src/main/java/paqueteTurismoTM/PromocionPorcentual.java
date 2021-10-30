@@ -37,8 +37,11 @@ public class PromocionPorcentual extends Promocion {
 		return result;
 	}
 
-	@Override
+	
 	public boolean equals(Object obj) {
+		if (!super.equals(obj)) {
+			return false;
+		}
 		if (this == obj)
 			return true;
 		if (!super.equals(obj))

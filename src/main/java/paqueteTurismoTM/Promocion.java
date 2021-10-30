@@ -69,7 +69,6 @@ public abstract class Promocion extends Oferta {
 		return result;
 	}
 
-	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;

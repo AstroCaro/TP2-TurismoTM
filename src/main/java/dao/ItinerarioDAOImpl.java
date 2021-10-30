@@ -46,7 +46,6 @@ public class ItinerarioDAOImpl implements ItinerarioDAO {
 					}
 				}
 			}
-
 			return comprasCliente;
 		} catch (Exception e) {
 			throw new MissingDataException(e);
