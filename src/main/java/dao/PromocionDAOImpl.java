@@ -8,17 +8,18 @@ import java.util.ArrayList;
 import jdbc.ConnectionProvider;
 import paqueteTurismoTM.Atraccion;
 import paqueteTurismoTM.Oferta;
+import paqueteTurismoTM.Ofertable;
 import paqueteTurismoTM.Promocion;
 import paqueteTurismoTM.PromocionAbsoluta;
 import paqueteTurismoTM.PromocionAxB;
 import paqueteTurismoTM.PromocionPorcentual;
-import paqueteTurismoTM.TurismoTM;
 
 public class PromocionDAOImpl implements PromocionDAO {
 
 	@Override
 	public ArrayList<Atraccion> listarAtraccionesIncluidas(String nombrePromo) {
 		try {
+			AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
 			String sql = "SELECT atracciones.nombre " + "FROM \"promocion-atraccion\" "
 					+ "JOIN promociones ON \"promocion-atraccion\".fk_promocion = promociones.id_promocion "
 					+ "JOIN atracciones ON \"promocion-atraccion\".fk_atraccion = atracciones.id_atraccion "
@@ -27,20 +28,20 @@ public class PromocionDAOImpl implements PromocionDAO {
 			PreparedStatement statement = conn.prepareStatement(sql);
 			statement.setString(1, nombrePromo);
 			ResultSet resultados = statement.executeQuery();
-			ArrayList<String> nombresAtraccionesIncluidas = new ArrayList<String>();
 			ArrayList<Atraccion> atraccionesIncluidas = new ArrayList<Atraccion>();
 			while (resultados.next()) {
-				nombresAtraccionesIncluidas.add(resultados.getString("nombre"));
+				atraccionesIncluidas.add(atraccionDAO.findAtraccionPorNombre(resultados.getString("nombre")));
 			}
-			for (String nombre : nombresAtraccionesIncluidas) {
-				for (Oferta unaAtraccion : TurismoTM.ofertas) {
-					
-					if (nombre.equals(unaAtraccion.getNombre())) {
-						Atraccion atraccion = (Atraccion) unaAtraccion;
-						atraccionesIncluidas.add(atraccion);
-					}
-				}
-			}
+			
+//			for (String nombre : nombresAtraccionesIncluidas) {
+//				for (Oferta unaAtraccion : boleteria.getOfertas()){
+//					
+//					if (nombre.equals(unaAtraccion.getNombre())) {
+//						Atraccion atraccion = (Atraccion) unaAtraccion;
+//						atraccionesIncluidas.add(atraccion);
+//					}
+//				}
+//			}
 			return atraccionesIncluidas;
 		} catch (Exception e) {
 			throw new MissingDataException(e);

@@ -12,14 +12,15 @@ import paqueteTurismoTM.Atraccion;
 
 import paqueteTurismoTM.Itinerario;
 import paqueteTurismoTM.Oferta;
+import paqueteTurismoTM.Ofertable;
 import paqueteTurismoTM.Promocion;
-import paqueteTurismoTM.TurismoTM;
 
 public class ItinerarioDAOImpl implements ItinerarioDAO {
 
 	@Override
 	public ArrayList<Oferta> findItinerarioPorCliente(int id_cliente) {
 		ArrayList<Oferta> comprasCliente = new ArrayList<Oferta>();
+		Ofertable boleteria = new Ofertable(); 
 		try {
 			String sql = "SELECT coalesce(promociones.nombre, atracciones.nombre)AS compras " 
 					+ "FROM itinerarios "
@@ -38,7 +39,7 @@ public class ItinerarioDAOImpl implements ItinerarioDAO {
 
 			}
 			for (String compra : compras) {
-				for (Oferta unaOferta : TurismoTM.ofertas) {
+				for (Oferta unaOferta : boleteria.getOfertas()) {
 					if (compra.equals(unaOferta.getNombre())) {
 						comprasCliente.add(unaOferta);
 					}

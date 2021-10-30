@@ -30,7 +30,7 @@ public class App {
 		/*************** APP PromocionDAO ****************/
 		PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
 		String promo = "PromocionAbsoluta 1";
-//		System.out.println(promocionDAO.listarAtraccionesIncluidas(promo));
+		System.out.println(promocionDAO.listarAtraccionesIncluidas(promo));
 //		System.out.println(promocionDAO.findAll());		
 //		
 //		ofertas.addAll(promocionDAO.findAll());

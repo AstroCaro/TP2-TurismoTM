@@ -44,7 +44,7 @@ public abstract class Promocion extends Oferta {
 		return nombreAtracciones;
 	}
 
-	public void venderCupo() {// se puede meter un booleano que vea que hay una promo que se quedo sin cupo
+	public void venderCupo() {
 		for (Atraccion unaAtraccion : atracciones) {
 			if (unaAtraccion.getCuposDisponibles() > 0)
 				unaAtraccion.venderCupo();
