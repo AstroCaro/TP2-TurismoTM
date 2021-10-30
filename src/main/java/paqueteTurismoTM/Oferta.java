@@ -19,6 +19,7 @@ public abstract class Oferta {
 	public String getTipoAtraccion() {
 		return this.tipoAtraccion;
 	}
+	
 
 	@Override
 	public int hashCode() {
@@ -27,12 +28,15 @@ public abstract class Oferta {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		Oferta other = (Oferta) obj;
 		return Objects.equals(nombre, other.nombre)
 				&& Double.doubleToLongBits(tiempo) == Double.doubleToLongBits(other.tiempo)

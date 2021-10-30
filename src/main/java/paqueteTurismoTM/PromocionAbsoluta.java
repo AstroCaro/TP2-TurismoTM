@@ -21,4 +21,22 @@ public class PromocionAbsoluta extends Promocion {
 				+ "\n\tEl tiempo total necesario es de " + this.getTiempo() + " Hs.\n";
 	}
 
+	@Override
+	public int hashCode() {
+		return super.hashCode();
+	}
+
+	public boolean equals(Object obj) {
+		if (!super.equals(obj)) {
+			return false;
+		}
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		return true;
+	}
+
 }

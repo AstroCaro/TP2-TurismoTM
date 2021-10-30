@@ -12,18 +12,17 @@ import org.junit.Test;
 
 import jdbc.ConnectionProvider;
 import paqueteTurismoTM.Atraccion;
-import paqueteTurismoTM.Oferta;
-import paqueteTurismoTM.Ofertable;
+import paqueteTurismoTM.TurismoTM;
 import paqueteTurismoTM.Promocion;
 import paqueteTurismoTM.PromocionAbsoluta;
 import paqueteTurismoTM.PromocionAxB;
 import paqueteTurismoTM.PromocionPorcentual;
-import paqueteTurismoTM.TurismoTM;
+
 
 public class PromocionDAOImplTest {
 
 	TurismoTM turismo;
-
+	public ArrayList<Atraccion> atracciones = new ArrayList<Atraccion>();
 	@Before
 	public void setUp() throws SQLException {
 		Connection conexion = ConnectionProvider.getConnection();
@@ -32,15 +31,17 @@ public class PromocionDAOImplTest {
 		turismo = new TurismoTM();
 
 		AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
-		turismo.ofertas.addAll(atraccionDAO.findAll());
+		atracciones.addAll(atraccionDAO.findAll());
+		turismo.ofertas.addAll(atracciones);
 		PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
-		turismo.ofertas.addAll(promocionDAO.findAll());
+		turismo.ofertas.addAll(promocionDAO.findAll(atracciones));
 
 	}
 
 	@After
 	public void tearDown() throws SQLException {
 		turismo.ofertas.clear();
+		turismo.atracciones.clear();
 		Connection conexion = ConnectionProvider.getConnection();
 		conexion.rollback();
 		conexion.setAutoCommit(true);
@@ -50,7 +51,7 @@ public class PromocionDAOImplTest {
 	public void cargaDePromocionesTest() {
 		PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
 		ArrayList<Promocion> promocionesReales = new ArrayList<Promocion>();
-		promocionesReales = promocionDAO.findAll();
+		promocionesReales = promocionDAO.findAll(atracciones);
 		ArrayList<Promocion> promocionesEsperadas = new ArrayList<Promocion>();
 		ArrayList<Atraccion> atraccionesIncluidas1 = new ArrayList<Atraccion>();
 		ArrayList<Atraccion> atraccionesIncluidas2 = new ArrayList<Atraccion>();
@@ -111,7 +112,7 @@ public class PromocionDAOImplTest {
 		PromocionDAO promocionDAO = DAOFactory.getPromocionDAO();
 		ArrayList<Atraccion> atraccionesReales = new ArrayList<Atraccion>();
 		String nombrePromo = "PromocionAxB 1";
-		atraccionesReales = promocionDAO.listarAtraccionesIncluidas(nombrePromo);
+		atraccionesReales = promocionDAO.listarAtraccionesIncluidas(nombrePromo,atracciones);
 
 		ArrayList<Atraccion> atraccionesEsperadas = new ArrayList<Atraccion>();
 		atraccionesEsperadas.add(new Atraccion(9, "Abismo de Helm", 5, 2.0, 15, "PAISAJE"));

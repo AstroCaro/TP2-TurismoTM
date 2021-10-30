@@ -12,15 +12,17 @@ import paqueteTurismoTM.Atraccion;
 
 import paqueteTurismoTM.Itinerario;
 import paqueteTurismoTM.Oferta;
-import paqueteTurismoTM.Promocion;
 import paqueteTurismoTM.TurismoTM;
+import paqueteTurismoTM.Promocion;
 
 public class ItinerarioDAOImpl implements ItinerarioDAO {
 
 	@Override
 	public ArrayList<Oferta> findItinerarioPorCliente(int id_cliente) {
-		ArrayList<Oferta> comprasCliente = new ArrayList<Oferta>();
+
 		try {
+			ArrayList<Oferta> comprasCliente = new ArrayList<Oferta>();
+			TurismoTM boleteria = new TurismoTM(); 
 			String sql = "SELECT coalesce(promociones.nombre, atracciones.nombre)AS compras " 
 					+ "FROM itinerarios "
 					+ "LEFT JOIN \"promociones\" ON \"promociones\".id_promocion = itinerarios.fk_promocion "
@@ -38,13 +40,12 @@ public class ItinerarioDAOImpl implements ItinerarioDAO {
 
 			}
 			for (String compra : compras) {
-				for (Oferta unaOferta : TurismoTM.ofertas) {
+				for (Oferta unaOferta : boleteria.getOfertas()) {
 					if (compra.equals(unaOferta.getNombre())) {
 						comprasCliente.add(unaOferta);
 					}
 				}
 			}
-
 			return comprasCliente;
 		} catch (Exception e) {
 			throw new MissingDataException(e);
@@ -86,10 +87,9 @@ public class ItinerarioDAOImpl implements ItinerarioDAO {
 			throw new MissingDataException(e);
 		}
 	}
-//si queda tiempo..
+
 	@Override
 	public ArrayList<Itinerario> findAll() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

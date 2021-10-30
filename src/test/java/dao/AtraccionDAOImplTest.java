@@ -64,7 +64,7 @@ public class AtraccionDAOImplTest {
 		assertEquals(atraccionesEsperadas, atraccionesReales);
 
 	}
-	
+
 	@Test
 	public void actualizarAtraccion() {
 		AtraccionDAO atraccionDAO = DAOFactory.getAtraccionDAO();
@@ -72,7 +72,7 @@ public class AtraccionDAOImplTest {
 		atraccionDAO.updateCupo(moria);
 		Atraccion atraccionReal = atraccionDAO.findAtraccionPorNombre(moria.getNombre());
 		assertEquals(moria, atraccionReal);
-		
+
 	}
-	
+
 }

@@ -44,7 +44,7 @@ public abstract class Promocion extends Oferta {
 		return nombreAtracciones;
 	}
 
-	public void venderCupo() {// se puede meter un booleano que vea que hay una promo que se quedo sin cupo
+	public void venderCupo() {
 		for (Atraccion unaAtraccion : atracciones) {
 			if (unaAtraccion.getCuposDisponibles() > 0)
 				unaAtraccion.venderCupo();
@@ -71,12 +71,15 @@ public abstract class Promocion extends Oferta {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (!super.equals(obj))
+		}
+		if (!super.equals(obj)) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		Promocion other = (Promocion) obj;
 		return Objects.equals(atracciones, other.atracciones) && costo == other.costo
 				&& cuposDisponibles == other.cuposDisponibles && id_promocion == other.id_promocion
